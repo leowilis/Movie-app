@@ -1,7 +1,7 @@
 export function CloseIcon({ className }: { className?: string }) {
   return (
     <svg
-      className={className}  // 👈 missing!
+      className={className}  
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
