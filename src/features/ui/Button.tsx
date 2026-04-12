@@ -37,7 +37,7 @@ const Button = ({
                 ${justClicked ? 'pointer-events-none' : ''}
                 ${
                   isFavorite
-                    ? 'bg-red-600 hover:bg-red-700'
+                    ? 'bg-red-500 hover:bg-red-700'
                     : 'bg-transparent border-2 border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800/50'
                 }
                 ${className}
@@ -62,7 +62,7 @@ const Button = ({
     return (
       <button
         onClick={onClick}
-        className={`w-full sm:w-auto rounded-xl border border-white/30 px-10 py-4 font-semibold hover:bg-white/10 transition-all duration-200 ${className}`}
+        className={`w-full sm:w-auto rounded-3xl border border-white/20 px-10 py-3 font-semibold hover:bg-red-600 transition-all duration-200 ${className}`}
       >
         {children}
       </button>
@@ -74,7 +74,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`w-full sm:w-auto flex items-center justify-center sm:justify-start gap-4 rounded-xl font-semibold transition-all duration-200 bg-(--color-primary-300) hover:bg-(--color-primary-400) ${padding} ${className}`}
+      className={`w-full sm:w-auto flex items-center justify-center sm:justify-start gap-3 rounded-3xl font-semibold transition-all duration-200 bg-transparent hover:bg-red-600 ${padding} ${className}`}
     >
       {children}
     </button>
