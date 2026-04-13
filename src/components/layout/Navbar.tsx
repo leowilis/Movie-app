@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SearchIcon } from '../ui/icons/SearchIcon';
-import { CloseIcon } from '../ui/icons/CloseIcon';
-import { MenuIcon } from '../ui/icons/MenuIcon';
+import { SearchIcon } from '../../features/ui/icons/SearchIcon';
+import { CloseIcon } from '../../features/ui/icons/CloseIcon';
+import { MenuIcon } from '../../features/ui/icons/MenuIcon';
+import { navItems } from '@/constants/navItems';
+import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '@/assets/icon-logo/Logo.svg';
 
 export default function Navbar() {
@@ -49,7 +51,6 @@ export default function Navbar() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearch}
               className='w-full bg-transparent text-white outline-none placeholder:text-white/40 text-base'
-              
             />
             <button
               onClick={() => {
@@ -120,26 +121,50 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      {open && (
-        <div className='md:hidden px-6 pb-6'>
-          <nav className='mt-2 flex flex-col gap-4 text-white text-xl'>
-            <a
-              href='/'
-              onClick={() => setOpen(false)}
-              className='text-white/70 hover:text-white transition-colors'
-            >
-              Home
-            </a>
-            <a
-              href='/favorites'
-              onClick={() => setOpen(false)}
-              className='text-white/70 hover:text-white transition-colors'
-            >
-              Favorites
-            </a>
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className='fixed inset-0 z-40 bg-black flex flex-col px-8 pt-8 pb-12'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className='flex items-center justify-between'>
+              <img src={Logo} alt='Logo' className='h-8' />
+              <button
+                onClick={() => setOpen(false)}
+                className='text-white/50 active:text-white transition-colors'
+              >
+                <CloseIcon className='w-6 h-6' />
+              </button>
+            </div>
+
+            <nav className='flex flex-col gap-2 mt-16'>
+              {navItems.map((item, i) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className='flex items-center justify-between py-5 border-b border-white/10 transition-all duration-200'
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08, duration: 0.3 }}
+                  whileTap={{ x: 8, color: '#ef4444' }}
+                >
+                  <span className='text-2xl font-bold text-white'>
+                    {item.label}
+                  </span>
+                </motion.a>
+              ))}
+            </nav>
+
+            <div className='mt-auto'>
+              <p className='text-white/50 text-sm'>© 2026 Movie App</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
