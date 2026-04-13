@@ -62,19 +62,19 @@ const Button = ({
     return (
       <button
         onClick={onClick}
-        className={`w-full sm:w-auto rounded-3xl border border-white/20 px-10 py-3 font-semibold hover:bg-red-600 transition-all duration-200 ${className}`}
+        className={`w-full sm:w-auto rounded-xl bg-zinc-800/50 active:scale-95 px-10 py-3 font-semibold text-white/70 hover:bg-zinc-700 transition-all duration-200 ${className}`}
       >
         {children}
       </button>
     );
   }
 
-  const padding = compact ? 'px-5 py-2.5 text-sm' : 'px-8 py-4';
+  const padding = compact ? 'px-5 py-3 text-sm' : 'px-8 py-3';
 
   return (
     <button
       onClick={onClick}
-      className={`w-full sm:w-auto flex items-center justify-center sm:justify-start gap-3 rounded-3xl font-semibold transition-all duration-200 bg-transparent hover:bg-red-600 ${padding} ${className}`}
+      className={`w-full sm:w-auto flex items-center justify-center sm:justify-start gap-3 rounded-xl font-semibold transition-all duration-200 bg-transparent active:scale-95 active:bg-red-700 hover:bg-red-600 ${padding} ${className}`}
     >
       {children}
     </button>
