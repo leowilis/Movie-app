@@ -124,7 +124,7 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className='fixed inset-0 z-40 bg-black flex flex-col px-8 pt-8 pb-12'
+            className='fixed inset-0 z-40 bg-black flex flex-col px-5 pt-8 pb-12'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
