@@ -26,7 +26,10 @@ export default function HeroSection() {
     : '';
 
   return (
-    <section className='realtive h-screen w-full overflow-hidden'>
+    <section
+      className='relative h-[75vh] w-full bg-cover bg-center'
+      style={{ backgroundImage: `url(${IMAGE_BASE}${movie?.backdrop_path})` }}
+    >
       {/* Hero background */}
       <motion.div
         className='absolute inset-0'
@@ -44,7 +47,7 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Hero Content */}
-      <div className='relative z-10 h-full flex items-end pb-24'>
+      <div className='relative z-10 h-full flex items-end pb-10'>
         <div className='layout-gutter w-full space-y-6 max-w-2xl'>
           {/* Movie Title */}
           <motion.h1
