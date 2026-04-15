@@ -47,11 +47,11 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Hero Content */}
-      <div className='relative z-10 h-full flex items-end pb-10'>
+      <div className='relative z-10 h-full flex items-end'>
         <div className='layout-gutter w-full space-y-6 max-w-2xl'>
           {/* Movie Title */}
           <motion.h1
-            className='text-3xl md:text-5xl font-bold'
+            className='text-2xl md:text-5xl font-bold'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7, ease: 'easeOut' }}
