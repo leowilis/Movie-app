@@ -27,3 +27,27 @@ textarea,
 select {
   font-size: 16px;
 }
+
+ @layer utilities {
+  .layout-gutter {
+    max-width: 1480px; 
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .layout-gutter {
+      padding-inline: 48px;
+    }
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+}
