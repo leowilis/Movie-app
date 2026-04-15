@@ -1,10 +1,11 @@
-import HeroSection from "./HeroSection";
+import HeroSection from './HeroSection';
+import TrendingSection from './TrendingSection';
 
 export default function HomeContent() {
   return (
-    <section className="relative w-full overflow-hidden pt-20">
+    <main className='relative w-full overflow-hidden'>
       <HeroSection />
-      
-    </section>
-  )
+      <TrendingSection />
+    </main>
+  );
 }
