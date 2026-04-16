@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useNewRelease } from './hooks/useNewRelease';
 import { motion } from 'framer-motion';
+import MovieCard from '@/components/movie/MovieCard';
 
 export default function NewRelease() {
   const { data: movies, isLoading } = useNewRelease();
@@ -12,7 +13,9 @@ export default function NewRelease() {
       setScrollPosition(sliderRef.current.scrollLeft);
     }
   };
+
   
+
   return (
     <motion.section
       className='py-8'
@@ -31,7 +34,11 @@ export default function NewRelease() {
             ref={sliderRef}
             onScroll={handleScroll}
             className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide px-6'
-          ></div>
+          >
+            {movies?.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
         </div>
       </div>
     </motion.section>
