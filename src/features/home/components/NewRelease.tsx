@@ -7,6 +7,12 @@ export default function NewRelease() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      setScrollPosition(sliderRef.current.scrollLeft);
+    }
+  };
+  
   return (
     <motion.section
       className='py-8'
