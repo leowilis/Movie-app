@@ -39,6 +39,15 @@ export default function NewRelease() {
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
+
+          {/* Left Fade */}
+          <div className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
+            scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
+          }`} />
+
+          {/* Right Fade */}
+          <div className='pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent' />
+
         </div>
       </div>
     </motion.section>
