@@ -2,6 +2,8 @@ import { useRef, useState } from 'react';
 import { useNewRelease } from './hooks/useNewRelease';
 import { motion } from 'framer-motion';
 import MovieCard from '@/components/movie/MovieCard';
+import ArrowLeft from '@/features/ui/icons/ArrowLeft';
+import ArrowRight from '@/features/ui/icons/ArrowRight';
 
 export default function NewRelease() {
   const { data: movies, isLoading } = useNewRelease();
@@ -13,8 +15,6 @@ export default function NewRelease() {
       setScrollPosition(sliderRef.current.scrollLeft);
     }
   };
-
-  
 
   return (
     <motion.section
@@ -41,13 +41,17 @@ export default function NewRelease() {
           </div>
 
           {/* Left Fade */}
-          <div className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
-            scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
-          }`} />
+          <div
+            className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
+              scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
 
           {/* Right Fade */}
           <div className='pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent' />
 
+          <ArrowLeft onClick={slideLeft} visible={scrollPosition > 0} />
+          <ArrowRight onClick={slideRight} />
         </div>
       </div>
     </motion.section>
