@@ -1,80 +1,126 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useMovieTrailer } from '@/hooks/useMovieTrailer';
-import { useTrendingMovies } from '@/hooks/useTrendingMovie';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNowPlaying } from '@/features/home/components/hooks/useNowPlaying';
+import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
 import { useNavigate } from 'react-router';
 import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
 import TrailerModal from '@/components/movie/TrailerModal';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
+const AUTO_SLIDE_INTERVAL = 6000;
 
 export default function HeroSection() {
-  const { data: trendingMovies, isLoading, isError } = useTrendingMovies();
+  const { data: movies, isLoading, isError } = useNowPlaying();
+  const [activeIndex, setActiveIndex] = useState(0);
   const [openTrailer, setOpenTrailer] = useState(false);
   const navigate = useNavigate();
 
-  const movie = trendingMovies?.[0];
+  const movie = movies?.[activeIndex];
   const { data: trailer } = useMovieTrailer(movie?.id ? String(movie.id) : '');
 
+  useEffect(() => {
+    if (!movies?.length) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % movies.length);
+    }, AUTO_SLIDE_INTERVAL);
+    return () => clearInterval(timer);
+  }, [movies]);
+
+  // Reset trailer modal when slide change
+  useEffect(() => {
+    setOpenTrailer(false);
+  }, [activeIndex]);
+
   if (isLoading || isError) {
-    return <section className='h-screen w-full bg-black' />;
+    return <section className='h-[75vh] w-full bg-black animate-pulse' />;
   }
 
-  const backdropUrl = movie?.backdrop_path
-    ? `${IMAGE_BASE}${movie.backdrop_path}`
-    : '';
-
   return (
-    <section
-      className='relative h-[75vh] w-full bg-cover bg-center'
-      style={{ backgroundImage: `url(${IMAGE_BASE}${movie?.backdrop_path})` }}
-    >
-      {/* Hero background */}
-      <motion.div
-        className='absolute inset-0'
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.4, ease: 'easeOut' }}
-      >
-        <img
-          src={backdropUrl}
+    <section className='relative h-[75vh] w-full overflow-hidden'>
+      {/* Backdrop */}
+      <AnimatePresence mode='wait'>
+        <motion.img
+          key={movie?.id}
+          src={`${IMAGE_BASE}${movie?.backdrop_path}`}
           alt={movie?.title}
-          className='w-full h-full object-cover object-top'
+          className='absolute inset-0 w-full h-full object-cover object-top'
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
         />
-        <div className='absolute inset-0 bg-black/40' />
-        <div className='absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black to-transparent' />
-      </motion.div>
+      </AnimatePresence>
 
-      {/* Hero Content */}
+      {/* Gradient Overlay */}
+      <div className='absolute inset-0 bg-black/40' />
+      <div className='absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent' />
+      <div className='absolute inset-0 bg-gradient-to-r from-black/60 to-transparent' />
+
+      {/* Content */}
       <div className='relative z-10 h-full flex items-end'>
-        <div className='layout-gutter w-full space-y-6 max-w-2xl'>
-          {/* Movie Title */}
-          <motion.h1
-            className='text-2xl md:text-5xl font-bold'
-            initial={{ opacity: 0, y: 20 }}
+        <div className='layout-gutter w-full max-w-2xl space-y-4 pb-16'>
+          {/* Badge */}
+          <motion.span
+            key={movie?.id + '-badge'}
+            className='inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider'
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.5 }}
           >
-            {movie?.title}
-          </motion.h1>
+            Now Playing
+          </motion.span>
 
-          {/* Movie Description */}
-          <motion.p
-            className='text-zinc-300 text-sm md:text-lg line-clamp-4'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.7, ease: 'easeOut' }}
+          {/* Title */}
+          <AnimatePresence mode='wait'>
+            <motion.h1
+              key={movie?.id + '-title'}
+              className='text-2xl md:text-5xl font-bold text-white leading-tight'
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.6 }}
+            >
+              {movie?.title}
+            </motion.h1>
+          </AnimatePresence>
+
+          {/* Rating + Year */}
+          <motion.div
+            key={movie?.id + '-meta'}
+            className='flex items-center gap-3 text-sm text-white/80'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {movie?.overview}
-          </motion.p>
+            <span className='flex items-center gap-1'>
+              <span className='text-yellow-400'>★</span>
+              {movie?.vote_average.toFixed(1)}/10
+            </span>
+            <span>•</span>
+            <span>{movie?.release_date.slice(0, 4)}</span>
+          </motion.div>
 
-          {/* Button component */}
+          {/* Overview */}
+          <AnimatePresence mode='wait'>
+            <motion.p
+              key={movie?.id + '-overview'}
+              className='text-zinc-300 text-sm md:text-base line-clamp-3'
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              {movie?.overview}
+            </motion.p>
+          </AnimatePresence>
+
+          {/* Buttons */}
           <motion.div
             className='flex flex-col gap-4'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.9, ease: 'easeOut' }}
+            transition={{ duration: 0.7, delay: 0.3 }}
           >
             <Button onClick={() => trailer && setOpenTrailer(true)}>
               Watch Trailer
@@ -91,7 +137,20 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Trailer */}
+      {/* Dot Indicators */}
+      <div className='relative justify-center bottom-6 right-6 z-10 flex gap-2'>
+        {movies?.slice(0, 8).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === activeIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Trailer Modal */}
       {openTrailer && trailer && (
         <TrailerModal
           videoKey={trailer.key}
