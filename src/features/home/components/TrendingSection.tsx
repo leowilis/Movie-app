@@ -1,4 +1,4 @@
-import { useTrendingMovies } from '@/hooks/useTrendingMovie';
+import { useTrendingMovies } from '@/features/home/components/hooks/useTrendingMovie';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import MovieCard from '@/components/movie/MovieCard';
@@ -28,6 +28,22 @@ export default function TrendingSection() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <section className='py-8'>
+        <div className='h-6 w-32 bg-white/10 rounded-lg mb-4 mx-6 animate-pulse' />
+        <div className='flex gap-6 px-6'>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className='shrink-0 w-32 h-48 bg-white/10 rounded-xl animate-pulse'
+            />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <motion.section
       className='py-8'
@@ -37,7 +53,9 @@ export default function TrendingSection() {
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
     >
       <div className='layout-gutter'>
-        <h2 className='text-white text-3xl font-bold mb-12 px-2'>Trending Now</h2>
+        <h2 className='text-white text-3xl font-bold mb-12 px-2'>
+          Trending Now
+        </h2>
 
         <div className='relative'>
           {/* Slider */}
