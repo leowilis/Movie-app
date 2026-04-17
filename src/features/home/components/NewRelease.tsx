@@ -16,6 +16,30 @@ export default function NewRelease() {
     }
   };
 
+  const slideLeft = () => {
+    sliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+
+  const slideRight = () => {
+    sliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
+  if (isLoading) {
+    return (
+      <section className='py-8'>
+        <div className='h-6 w-32 bg-white/10 rounded-lg mb-4 mx-6 animate-pulse' />
+        <div className='flex gap-6 px-6'>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className='shrink-0 w-32 h-48 bg-white/10 rounded-xl animate-pulse'
+            />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <motion.section
       className='py-8'
@@ -29,11 +53,11 @@ export default function NewRelease() {
           New Release
         </h2>
 
-        <div>
+        <div className='relative'>
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide px-6'
+            className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide'
           >
             {movies?.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
