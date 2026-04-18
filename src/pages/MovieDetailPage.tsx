@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { useMovieDetail } from '@/features/home/components/hooks/useMovieDetail';
 import { motion } from 'framer-motion';
 import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
+import StarRating from '@/features/ui/icons/StarRating';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const POSTER_BASE = 'https://image.tmdb.org/t/p/w500';
@@ -63,8 +64,9 @@ export default function MovieDetailPage() {
             {/* Meta */}
             <div className='flex flex-wrap items-center gap-3 text-sm text-white/70'>
               <span className='flex items-center gap-1'>
-                <span className='text-yellow-400'>★</span>
-                {movie?.vote_average.toFixed(1)}/10
+                {movie?.vote_average !== undefined && (
+                  <StarRating rating={movie.vote_average} />
+                )}
               </span>
               <span>•</span>
               <span>{movie?.release_date.slice(0, 4)}</span>
