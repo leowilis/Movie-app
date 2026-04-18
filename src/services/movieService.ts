@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { Movie, MovieResponse, Video } from '@/features/types/Movie';
+import { Movie, MovieDetail, MovieResponse, Video } from '@/features/types/Movie';
 
 export const getNowPlaying = async (): Promise<Movie[]> => {
   const { data } = await api.get<MovieResponse>('/movie/now_playing');
@@ -26,4 +26,9 @@ export const getMovieVideos = async (id: string): Promise<Video[]> => {
 export const getNewRelease = async (): Promise<Movie[]> => {
   const { data } = await api.get<MovieResponse>('/movie/now_playing');
   return data.results;
+};
+
+export const geMovieById = async (id: string): Promise<MovieDetail> => {
+  const { data } = await api.get<MovieDetail>(`/movie/${id}`);
+  return data;
 };
