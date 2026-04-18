@@ -11,6 +11,9 @@ export default function MovieDetailPage() {
   const { data: movie, isLoading } = useMovieDetail(id ?? '');
   const { data: trailer } = useMovieTrailer(id ?? '');
 
+  const hours = Math.floor((movie?.runtime ?? 0) / 60);
+  const minutes = (movie?.runtime ?? 0) % 60;
+
   return (
     <div className='min-h-screen text-white'>
       {/* Backdrop */}
@@ -51,6 +54,29 @@ export default function MovieDetailPage() {
             <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
               {movie?.title}
             </h1>
+
+            {/* Tagline */}
+            {movie?.tagline && (
+              <p className='text-white/50 italic text-sm'>{movie.tagline}</p>
+            )}
+
+            {/* Meta */}
+            <div className='flex flex-wrap items-center gap-3 text-sm text-white/70'>
+              <span className='flex items-center gap-1'>
+                <span className='text-yellow-400'>★</span>
+                {movie?.vote_average.toFixed(1)}/10
+              </span>
+              <span>•</span>
+              <span>{movie?.release_date.slice(0, 4)}</span>
+              {(movie?.runtime ?? 0) > 0 && (
+                <>
+                  <span>•</span>
+                  <span>
+                    {hours}h {minutes}m
+                  </span>
+                </>
+              )}
+            </div>
           </motion.div>
         </div>
       </div>
