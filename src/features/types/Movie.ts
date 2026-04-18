@@ -18,3 +18,33 @@ export interface MovieResponse {
   total_pages: number
   total_results: number
 }
+
+export interface Video {
+  id: string
+  key: string
+  name: string
+  site: string
+  type: string
+}
+
+export interface Genre {
+  id: number
+  name: string
+}
+
+export interface ProductionCompany {
+  id: number
+  name: string
+  logo_path: string | null
+  origin_country: string
+}
+
+export interface MovieDetail extends Movie {
+  genres: Genre[]
+  runtime: number
+  tagline: string
+  status: string
+  budget: number
+  revenue: number
+  production_companies: ProductionCompany[]
+}
