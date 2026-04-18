@@ -30,16 +30,28 @@ export default function MovieDetailPage() {
       {/* Detail Content */}
       <div className='layout-gutter -mt-24 relative z-10 pb-16'>
         <div className='flex flex-col md:flex-row gap-8'>
-            {/* Poster */}
-            <motion.img 
+          {/* Poster */}
+          <motion.img
             src={`${POSTER_BASE}${movie?.poster_path}`}
             alt={movie?.title}
             className='w-36 md:w-52 rounded-2xl shadow-2xl shrink-0 self-start'
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            />
-            
+          />
+
+          {/* Info */}
+          <motion.div
+            className='flex flex-col gap-4'
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            {/* Title */}
+            <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
+              {movie?.title}
+            </h1>
+          </motion.div>
         </div>
       </div>
     </div>
