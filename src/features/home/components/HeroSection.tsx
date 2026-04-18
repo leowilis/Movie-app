@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
 import TrailerModal from '@/components/movie/TrailerModal';
+import StarRating from '@/features/ui/icons/StarRating';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const AUTO_SLIDE_INTERVAL = 6000;
@@ -37,14 +38,14 @@ export default function HeroSection() {
   }
 
   return (
-    <section className='relative h-[75vh] w-full overflow-hidden'>
+    <section className='relative h-[82vh] w-full overflow-hidden'>
       {/* Backdrop */}
       <AnimatePresence mode='wait'>
         <motion.img
           key={movie?.id}
           src={`${IMAGE_BASE}${movie?.backdrop_path}`}
           alt={movie?.title}
-          className='absolute inset-0 w-full h-full object-cover object-top'
+          className='absolute inset-0 w-full h-full object-cover object-center'
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
@@ -53,7 +54,7 @@ export default function HeroSection() {
       </AnimatePresence>
 
       {/* Gradient Overlay */}
-      <div className='absolute inset-0 bg-black/40' />
+      <div className='absolute inset-0 bg-black/20' />
       <div className='absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent' />
       <div className='absolute inset-0 bg-gradient-to-r from-black/60 to-transparent' />
 
@@ -94,8 +95,9 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <span className='flex items-center gap-1'>
-              <span className='text-yellow-400'>★</span>
-              {movie?.vote_average.toFixed(1)}/10
+              {movie?.vote_average !== undefined && (
+                <StarRating rating={movie.vote_average} />
+              )}
             </span>
             <span>•</span>
             <span>{movie?.release_date.slice(0, 4)}</span>
@@ -105,7 +107,7 @@ export default function HeroSection() {
           <AnimatePresence mode='wait'>
             <motion.p
               key={movie?.id + '-overview'}
-              className='text-zinc-300 text-sm md:text-base line-clamp-3'
+              className='text-zinc-300 text-sm md:text-base line-clamp-4'
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
@@ -138,7 +140,7 @@ export default function HeroSection() {
       </div>
 
       {/* Dot Indicators */}
-      <div className='relative justify-center bottom-6 right-6 z-10 flex gap-2'>
+      <div className='relative justify-center bottom-6 z-10 flex gap-2'>
         {movies?.slice(0, 8).map((_, i) => (
           <button
             key={i}
