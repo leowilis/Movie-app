@@ -28,7 +28,7 @@ export const getNewRelease = async (): Promise<Movie[]> => {
   return data.results;
 };
 
-export const geMovieById = async (id: string): Promise<MovieDetail> => {
+export const getMovieById = async (id: string): Promise<MovieDetail> => {
   const { data } = await api.get<MovieDetail>(`/movie/${id}`);
   return data;
 };
