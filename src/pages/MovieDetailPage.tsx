@@ -103,7 +103,7 @@ export default function MovieDetailPage() {
             <div>
               <button
                 onClick={() => trailer && setOpenTrailer(true)}
-                className='flex items-center gap-2 bg-white text-black font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-white/90 transition'
+                className='flex items-center gap-2 bg-white text-black font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-red-600 hover:text-white transition'
               >
                 ▶ Watch Trailer
               </button>
