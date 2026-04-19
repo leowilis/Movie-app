@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { useMovieDetail } from '@/features/home/components/hooks/useMovieDetail';
 import { motion } from 'framer-motion';
 import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
+import { useMovieCredits } from '@/features/home/components/hooks/useMovieCredits';
 import { useState } from 'react';
 import StarRating from '@/features/ui/icons/StarRating';
 import Button from '@/features/ui/Button';
@@ -15,6 +16,7 @@ export default function MovieDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data: movie, isLoading } = useMovieDetail(id ?? '');
   const { data: trailer } = useMovieTrailer(id ?? '');
+  const { data: credits } = useMovieCredits(id ?? '');
   const [openTrailer, setOpenTrailer] = useState(false);
 
   if (isLoading) {
@@ -108,6 +110,7 @@ export default function MovieDetailPage() {
             </div>
 
             {/* Overview */}
+            <p className='text-2xl font-bold pb-2'>Overview</p>
             <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
               {movie.overview}
             </p>
@@ -155,6 +158,51 @@ export default function MovieDetailPage() {
               <p className='text-white font-semibold'>
                 {movie.vote_count.toLocaleString()}
               </p>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Cast & Crew */}
+        {(credits?.cast?.length ?? 0) > 0 && (
+          <motion.div
+            className='mt-10'
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className='text-2xl font-bold mb-4'>Cast & Crew</h2>
+            <div className='flex flex-col'>
+              {credits?.cast.slice(0, 10).map((person, index) => (
+                <motion.div
+                  key={person.id}
+                  className='flex items-center gap-4 py-4 border-b border-white/10'
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  {person.profile_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                      alt={person.name}
+                      className='w-25 h-full rounded-xl object-cover shrink-0'
+                    />
+                  ) : (
+                    <div className='w-25 h-40 rounded-xl bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
+                      ?
+                    </div>
+                  )}
+                  <div>
+                    <p className='text-white font-semibold text-sm'>
+                      {person.name}
+                    </p>
+                    <p className='text-white/40 text-xs mt-0.5'>
+                      {person.character}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         )}
