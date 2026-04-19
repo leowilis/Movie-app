@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type ButtonProps = {
   children?: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'favorite';
+  variant?: 'primary' | 'secondary' | 'favorite' | 'outline';
   onClick?: () => void;
   className?: string;
   isFavorite?: boolean;
@@ -63,6 +63,17 @@ const Button = ({
       <button
         onClick={onClick}
         className={`w-full sm:w-auto rounded-xl bg-zinc-800/50 active:scale-95 px-10 py-3 font-semibold text-white/70 hover:bg-zinc-700 transition-all duration-200 ${className}`}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  if (variant === 'outline') {
+    return (
+      <button
+        onClick={onClick}
+        className={`flex items-center gap-2 bg-red-600 text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-red-900 hover:text-white transition ${className}`}
       >
         {children}
       </button>
