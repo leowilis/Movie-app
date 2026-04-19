@@ -48,3 +48,16 @@ export interface MovieDetail extends Movie {
   revenue: number
   production_companies: ProductionCompany[]
 }
+
+export interface CastMember {
+  id: number
+  name: string
+  character: string
+  profile_path: string | null
+  order: number
+}
+
+export interface MovieCredits { 
+  id: number
+  cast: CastMember[]
+}
