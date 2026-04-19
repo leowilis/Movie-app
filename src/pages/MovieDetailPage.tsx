@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
 import { useState } from 'react';
 import StarRating from '@/features/ui/icons/StarRating';
+import Button from '@/features/ui/Button';
+import PlayIcon from '@/assets/play-icon/play.svg';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const POSTER_BASE = 'https://image.tmdb.org/t/p/w500';
@@ -100,13 +102,11 @@ export default function MovieDetailPage() {
             </p>
 
             {/* Buttons */}
-            <div>
-              <button
-                onClick={() => trailer && setOpenTrailer(true)}
-                className='flex items-center gap-2 bg-white text-black font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-red-600 hover:text-white transition'
-              >
-                ▶ Watch Trailer
-              </button>
+            <div className='flex gap-3 mt-2'>
+              <Button variant='outline' onClick={() => trailer && setOpenTrailer(true)}>
+                Watch Trailer
+                <img src={PlayIcon} className='w-6 h-6' alt='Play' />
+              </Button>
             </div>
           </motion.div>
         </div>
