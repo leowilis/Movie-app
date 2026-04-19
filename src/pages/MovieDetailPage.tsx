@@ -16,15 +16,25 @@ export default function MovieDetailPage() {
   const { data: trailer } = useMovieTrailer(id ?? '');
   const [openTrailer, setOpenTrailer] = useState(false);
 
-  const hours = Math.floor((movie?.runtime ?? 0) / 60);
-  const minutes = (movie?.runtime ?? 0) % 60;
+  if (isLoading) {
+    return (
+      <div className='min-h-screen bg-black flex items-center justify-center'>
+        <div className='w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin' />
+      </div>
+    );
+  }
+
+  if (!movie) return null;
+
+  const hours = Math.floor((movie.runtime ?? 0) / 60);
+  const minutes = (movie.runtime ?? 0) % 60;
 
   return (
     <div className='min-h-screen text-white'>
       {/* Backdrop */}
       <div className='relative h-[50vh] md:h-[60vh] w-full overflow-hidden'>
         <motion.img
-          src={`${IMAGE_BASE}${movie?.backdrop_path}`}
+          src={`${IMAGE_BASE}${movie.backdrop_path}`}
           alt={movie?.title}
           className='w-full h-full object-cover object-center'
           initial={{ scale: 1.05, opacity: 0 }}
@@ -40,8 +50,8 @@ export default function MovieDetailPage() {
         <div className='flex flex-col md:flex-row gap-8'>
           {/* Poster */}
           <motion.img
-            src={`${POSTER_BASE}${movie?.poster_path}`}
-            alt={movie?.title}
+            src={`${POSTER_BASE}${movie.poster_path}`}
+            alt={movie.title}
             className='w-36 md:w-52 rounded-2xl shadow-2xl shrink-0 self-start'
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -57,7 +67,7 @@ export default function MovieDetailPage() {
           >
             {/* Title */}
             <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
-              {movie?.title}
+              {movie.title}
             </h1>
 
             {/* Tagline */}
@@ -73,8 +83,8 @@ export default function MovieDetailPage() {
                 )}
               </span>
               <span>•</span>
-              <span>{movie?.release_date.slice(0, 4)}</span>
-              {(movie?.runtime ?? 0) > 0 && (
+              <span>{movie.release_date.slice(0, 4)}</span>
+              {(movie.runtime ?? 0) > 0 && (
                 <>
                   <span>•</span>
                   <span>
@@ -98,7 +108,7 @@ export default function MovieDetailPage() {
 
             {/* Overview */}
             <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
-              {movie?.overview}
+              {movie.overview}
             </p>
 
             {/* Buttons */}
@@ -110,6 +120,34 @@ export default function MovieDetailPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Stats */}
+        {( movie.budget > 0 || movie.revenue > 0) && (
+          <motion.div
+          className='mt-12 grid grid-cols-2 md:grid-cols-4 gap-4'
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          >
+            {movie.budget > 0 && (
+              <div className='bg-white/5 rounded-2xl p-4'>
+                <p className='text-white/40 text-xs mb-1'>Budget</p>
+                <p className='text-white font-semibold'>
+                  ${(movie.budget / 1_000_000).toFixed(0)}M
+                </p>
+              </div>
+            )}
+            {movie.revenue > 0 && (
+              <div className='bg-white/5 rounded-2xl p-4'>
+                <p className='text-white font-semibold'>Revenue</p>
+                <p className='text-white font-semibold'>
+                  ${(movie.revenue / 1_000_000).toFixed(0)}M
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
       </div>
     </div>
   );
