@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { useMovieDetail } from '@/features/home/components/hooks/useMovieDetail';
 import { motion } from 'framer-motion';
 import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
+import { useState } from 'react';
 import StarRating from '@/features/ui/icons/StarRating';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
@@ -11,6 +12,7 @@ export default function MovieDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data: movie, isLoading } = useMovieDetail(id ?? '');
   const { data: trailer } = useMovieTrailer(id ?? '');
+  const [openTrailer, setOpenTrailer] = useState(false);
 
   const hours = Math.floor((movie?.runtime ?? 0) / 60);
   const minutes = (movie?.runtime ?? 0) % 60;
@@ -78,6 +80,33 @@ export default function MovieDetailPage() {
                   </span>
                 </>
               )}
+            </div>
+
+            {/* Genres */}
+            <div className='flex flex-wrap gap-2'>
+              {movie?.genres?.map((genre) => (
+                <span
+                  key={genre.id}
+                  className='px-3 py-1 rounded-full border border-white/20 text-xs text-white/80'
+                >
+                  {genre.name}
+                </span>
+              ))}
+            </div>
+
+            {/* Overview */}
+            <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
+              {movie?.overview}
+            </p>
+
+            {/* Buttons */}
+            <div>
+              <button
+                onClick={() => trailer && setOpenTrailer(true)}
+                className='flex items-center gap-2 bg-white text-black font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-white/90 transition'
+              >
+                ▶ Watch Trailer
+              </button>
             </div>
           </motion.div>
         </div>
