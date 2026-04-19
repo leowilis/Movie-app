@@ -6,6 +6,7 @@ import { useState } from 'react';
 import StarRating from '@/features/ui/icons/StarRating';
 import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
+import TrailerModal from '@/components/movie/TrailerModal';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const POSTER_BASE = 'https://image.tmdb.org/t/p/w500';
@@ -113,7 +114,10 @@ export default function MovieDetailPage() {
 
             {/* Buttons */}
             <div className='flex gap-3 mt-2'>
-              <Button variant='outline' onClick={() => trailer && setOpenTrailer(true)}>
+              <Button
+                variant='outline'
+                onClick={() => trailer && setOpenTrailer(true)}
+              >
                 Watch Trailer
                 <img src={PlayIcon} className='w-6 h-6' alt='Play' />
               </Button>
@@ -122,13 +126,13 @@ export default function MovieDetailPage() {
         </div>
 
         {/* Stats */}
-        {( movie.budget > 0 || movie.revenue > 0) && (
+        {(movie.budget > 0 || movie.revenue > 0) && (
           <motion.div
-          className='mt-12 grid grid-cols-2 md:grid-cols-4 gap-4'
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+            className='mt-12 grid grid-cols-2 md:grid-cols-4 gap-4'
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
             {movie.budget > 0 && (
               <div className='bg-white/5 rounded-2xl p-4'>
@@ -146,9 +150,23 @@ export default function MovieDetailPage() {
                 </p>
               </div>
             )}
+            <div className='bg-white/5 rounded-2xl p-4'>
+              <p className='text-white/40 text-xs mb-1'>Votes</p>
+              <p className='text-white font-semibold'>
+                {movie.vote_count.toLocaleString()}
+              </p>
+            </div>
           </motion.div>
         )}
       </div>
+
+      {/* Trailer Modal */}
+      {openTrailer && trailer && (
+        <TrailerModal
+          videoKey={trailer.key}
+          onClose={() => setOpenTrailer(false)}
+        />
+      )}
     </div>
   );
 }
