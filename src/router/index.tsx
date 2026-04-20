@@ -1,15 +1,25 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Home from '../App';
-import SearchPage from '../components/pages/SearchPage';
+import HomePage from '@/pages/HomePage';
+import SearchPage from '../pages/SearchPage';
+import MovieDetailPage from '@/pages/MovieDetailPage';
+import FavoritesPage from '@/pages/FavoritesPage';
 
 const Router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <HomePage />,
   },
   {
     path: '/search',
     element: <SearchPage />,
+  },
+  {
+    path: '/movie/:id',
+    element: <MovieDetailPage />,
+  },
+  {
+    path: '/favorites',
+    element: <FavoritesPage />,
   },
 ]);
 
