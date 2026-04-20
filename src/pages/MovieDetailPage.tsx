@@ -10,6 +10,7 @@ import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
 import TrailerModal from '@/components/movie/TrailerModal';
 import FavoriteButton from '@/features/ui/icons/Favorites';
+import Footer from '@/components/layout/Footer';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const POSTER_BASE = 'https://image.tmdb.org/t/p/w500';
@@ -229,6 +230,9 @@ export default function MovieDetailPage() {
           onClose={() => setOpenTrailer(false)}
         />
       )}
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
