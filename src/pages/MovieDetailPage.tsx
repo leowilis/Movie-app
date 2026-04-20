@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { useMovieTrailer } from '@/features/home/components/hooks/useMovieTrailer';
 import { useMovieCredits } from '@/features/home/components/hooks/useMovieCredits';
 import { useState } from 'react';
+import { useFavoriteStore } from '@/store/useFavoriteStore';
 import StarRating from '@/features/ui/icons/StarRating';
 import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
 import TrailerModal from '@/components/movie/TrailerModal';
+import FavoriteButton from '@/features/ui/icons/Favorites';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 const POSTER_BASE = 'https://image.tmdb.org/t/p/w500';
@@ -17,6 +19,7 @@ export default function MovieDetailPage() {
   const { data: movie, isLoading } = useMovieDetail(id ?? '');
   const { data: trailer } = useMovieTrailer(id ?? '');
   const { data: credits } = useMovieCredits(id ?? '');
+  const { addFavorite, removeFavorite, isFavorite } = useFavoriteStore();
   const [openTrailer, setOpenTrailer] = useState(false);
 
   if (isLoading) {
@@ -29,6 +32,7 @@ export default function MovieDetailPage() {
 
   if (!movie) return null;
 
+  const favorited = isFavorite(movie.id);
   const hours = Math.floor((movie.runtime ?? 0) / 60);
   const minutes = (movie.runtime ?? 0) % 60;
 
@@ -69,9 +73,19 @@ export default function MovieDetailPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             {/* Title */}
-            <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
-              {movie.title}
-            </h1>
+            <div className='flex items-start justify-between gap-4'>
+              <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
+                {movie.title}
+              </h1>
+
+              {/* Favorite button */}
+              <FavoriteButton
+                isFavorite={favorited}
+                onClick={() =>
+                  favorited ? removeFavorite(movie.id) : addFavorite(movie)
+                }
+              />
+            </div>
 
             {/* Tagline */}
             {movie?.tagline && (
