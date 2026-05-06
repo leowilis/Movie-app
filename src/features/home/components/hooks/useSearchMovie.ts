@@ -17,7 +17,7 @@ const searchMovies = async (query: string): Promise<Movie[]> => {
 
 // Custom hook for searching movies with built-in caching and conditional fetching
 export const useSearchMovie = (query: string) =>
-  useQuery<Movie[]>({
+  useQuery<Movie[], Error>({
     queryKey: ['search-movie', query],
     queryFn: () => searchMovies(query),
     enabled: query.trim().length > 0, // Prevents empty API calls
