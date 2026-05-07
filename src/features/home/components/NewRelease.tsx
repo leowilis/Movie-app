@@ -1,40 +1,59 @@
-import { useRef, useState } from 'react';
-import { useNewRelease } from './hooks/useNewRelease';
 import { motion } from 'framer-motion';
+import { useNewRelease } from './hooks/useNewRelease';
+import { MovieCardSkeleton } from '@/features/ui/Skeleton';
 import MovieCard from '@/components/movie/MovieCard';
-import ArrowLeft from '@/features/ui/icons/ArrowLeft';
-import ArrowRight from '@/features/ui/icons/ArrowRight';
 
+const INITIAL_SKELETON_COUNT = 4;
+
+/**
+ * NewRelease Component
+ *
+ * Renders a responsive grid of movies currently in theaters.
+ * Orchestrates multiple data states (Loading, Error, Success) and manages
+ * infinite pagination via a "Load More" strategy.
+ *
+ * Features:
+ * - Animated entry on scroll (Framer Motion)
+ * - Standardized Skeleton hydration to prevent Layout Shift
+ * - Paginated results flattening for seamless rendering
+ */
 export default function NewRelease() {
-  const { data: movies, isLoading } = useNewRelease();
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useNewRelease();
 
-  const handleScroll = () => {
-    if (sliderRef.current) {
-      setScrollPosition(sliderRef.current.scrollLeft);
-    }
-  };
+  // Flattens multi-page data from TanStack Query into a single array for efficient grid mapping.
+  const movies = data?.pages.flatMap((page) => page.results) ?? [];
 
-  const slideLeft = () => {
-    sliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
-  };
-
-  const slideRight = () => {
-    sliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
-  };
-
+  // Loading state
   if (isLoading) {
     return (
       <section className='py-8'>
-        <div className='h-6 w-32 bg-white/10 rounded-lg mb-4 mx-6 animate-pulse' />
-        <div className='flex gap-6 px-6'>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className='shrink-0 w-32 h-48 bg-white/10 rounded-xl animate-pulse'
-            />
-          ))}
+        <div className='layout-gutter'>
+          <div className='h-8 w-36 bg-zinc-800 rounded-lg mb-12 mx-2 animate-pulse' />
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+            {Array.from({ length: INITIAL_SKELETON_COUNT }).map((_, i) => (
+              <MovieCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <section className='py-8'>
+        <div className='layout-gutter px-2'>
+          <p className='text-zinc-500 text-sm'>
+            Failed to load new releases. Please try again later.
+          </p>
         </div>
       </section>
     );
@@ -53,30 +72,30 @@ export default function NewRelease() {
           New Release
         </h2>
 
-        <div className='relative'>
-          <div
-            ref={sliderRef}
-            onScroll={handleScroll}
-            className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide'
-          >
-            {movies?.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+        {/* Movie Grid */}
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+
+          {/* Load More skeletons */}
+          {isFetchingNextPage &&
+            Array.from({ length: INITIAL_SKELETON_COUNT }).map((_, i) => (
+              <MovieCardSkeleton key={`skeleton-${i}`} />
             ))}
-          </div>
-
-          {/* Left Fade */}
-          <div
-            className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
-              scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-
-          {/* Right Fade */}
-          <div className='pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent' />
-
-          <ArrowLeft onClick={slideLeft} visible={scrollPosition > 0} />
-          <ArrowRight onClick={slideRight} />
         </div>
+
+        {/* Load More button */}
+        {hasNextPage && !isFetchingNextPage && (
+          <div className='flex justify-center mt-10'>
+            <button
+              onClick={() => fetchNextPage()}
+              className='px-8 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-medium hover:border-white hover:text-white hover:bg-white/5 active:scale-95 transition-all duration-200'
+            >
+              Load More
+            </button>
+          </div>
+        )}
       </div>
     </motion.section>
   );
