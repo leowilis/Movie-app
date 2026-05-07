@@ -1,44 +1,54 @@
-import { useTrendingMovies } from '@/features/home/components/hooks/useTrendingMovie';
-import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTrendingMovies } from './hooks/useTrendingMovie';
+import { useSlider } from '@/hooks/useSlider';
+import { MovieCardSkeleton } from '@/features/ui/Skeleton';
 import MovieCard from '@/components/movie/MovieCard';
 import ArrowLeft from '@/features/ui/icons/ArrowLeft';
 import ArrowRight from '@/features/ui/icons/ArrowRight';
 
+const SKELETON_COUNT = 4;
+
+/**
+ * TrendingSection Component
+ *
+ * Orchestrates the "Trending Now" cinematic slider.
+ * Integrates custom horizontal navigation primitives, standardized loading states,
+ * and resilient error boundaries.
+ *
+ * Features:
+ * - Dynamic scroll orchestration via `useSlider` hook.
+ * - Intersection-aware entrance animations using Framer Motion.
+ * - Gradient mask overlays for enhanced visual depth on horizontal overflow.
+ */
 export default function TrendingSection() {
   const { data: movies, isLoading, isError } = useTrendingMovies();
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const { sliderRef, scrollPosition, handleScroll, slideLeft, slideRight } =
+    useSlider();
 
-  const handleScroll = () => {
-    if (sliderRef.current) {
-      setScrollPosition(sliderRef.current.scrollLeft);
-    }
-  };
-
-  const slideLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
-  const slideRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
-
+  // Loading state
   if (isLoading) {
     return (
       <section className='py-8'>
-        <div className='h-6 w-32 bg-white/10 rounded-lg mb-4 mx-6 animate-pulse' />
-        <div className='flex gap-6 px-6'>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className='shrink-0 w-32 h-48 bg-white/10 rounded-xl animate-pulse'
-            />
-          ))}
+        <div className='layout-gutter'>
+          <div className='h-8 w-36 bg-zinc-800 rounded-lg mb-12 mx-2 animate-pulse' />
+          <div className='flex gap-6'>
+            {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+              <MovieCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (isError) {
+    return (
+      <section className='py-8'>
+        <div className='layout-gutter px-2'>
+          <p className='text-zinc-500 text-sm'>
+            Failed to load trending movies. Please try again later.
+          </p>
         </div>
       </section>
     );
@@ -69,17 +79,16 @@ export default function TrendingSection() {
             ))}
           </div>
 
-          {/* Left Fade */}
+          {/* Left fade */}
           <div
             className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
               scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
             }`}
           />
 
-          {/* Right Fade */}
+          {/* Right fade */}
           <div className='pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent' />
 
-          {/* Arrows */}
           <ArrowLeft onClick={slideLeft} visible={scrollPosition > 0} />
           <ArrowRight onClick={slideRight} />
         </div>
