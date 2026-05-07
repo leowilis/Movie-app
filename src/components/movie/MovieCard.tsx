@@ -1,6 +1,8 @@
-import { Movie } from '@/features/types/Movie';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Movie } from '@/features/types/Movie';
+import { Skeleton } from '@/features/ui/Skeleton';
+import StarRating from '@/features/ui/icons/StarRating';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -8,20 +10,23 @@ interface MovieCardProps {
   movie: Movie;
 }
 
+/**
+ * MovieCard displays a movie poster with its title and rating.
+ * Navigates to the movie detail page on click.
+ * Includes a skeleton placeholder while the poster image is loading.
+ */
 export default function MovieCard({ movie }: MovieCardProps) {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
+
   return (
     <div
       onClick={() => navigate(`/movie/${movie.id}`)}
-      className='shrink-0 w-50 cursor-pointer active:scale-95 transition-transform duration-200'
+      className='group shrink-0 w-[200px] cursor-pointer active:scale-95 transition-transform duration-200'
     >
       {/* Poster */}
       <div className='h-[300px] w-[200px] rounded-lg overflow-hidden bg-zinc-900 mb-4 relative'>
-        {/* Skeleton */}
-        {!loaded && (
-          <div className='absolute inset-0 bg-zinc-800 animate-pulse' />
-        )}
+        {!loaded && <Skeleton className='absolute inset-0 rounded-lg' />}
 
         {movie.poster_path ? (
           <img
@@ -39,19 +44,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
         )}
       </div>
 
-      {/* TITLE + RATING */}
+      {/* Title + Rating */}
       <div className='px-1'>
         <p className='text-sm font-semibold text-white line-clamp-1 mb-1'>
           {movie.title}
         </p>
-        <div className='flex items-center gap-1'>
-          <svg className='w-4 h-4 fill-yellow-400' viewBox='0 0 24 24'>
-            <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' />
-          </svg>
-          <span className='text-sm text-zinc-400'>
-            {movie.vote_average.toFixed(1)}/10
-          </span>
-        </div>
+        <StarRating rating={movie.vote_average} />
       </div>
     </div>
   );
