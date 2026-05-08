@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { MovieCredits } from '@/features/types/Movie';
-import { getMovieCredits } from '@/services/movieService';
+import { MovieDetail } from '@/features/types/Movie';
+import { getMovieById } from '@/services/movieService';
 
 /**
- * Fetches cast and crew credits for a single movie by its ID.
+ * Fetches detailed information for a single movie by its ID.
  * Query is disabled when no ID is provided.
  */
-export const useMovieCredits = (id: string) =>
-  useQuery<MovieCredits, Error>({
-    queryKey: ['movie-credits', id],
-    queryFn: () => getMovieCredits(id),
+export const useMovieDetail = (id: string) =>
+  useQuery<MovieDetail, Error>({
+    queryKey: ['movie-detail', id],
+    queryFn: () => getMovieById(id),
     enabled: !!id,
   });
