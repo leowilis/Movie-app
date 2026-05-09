@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useSearchMovie } from '@/features/home/components/hooks/useSearchMovie';
+import { useSearchMovie } from '@/features/home/components/search/hooks/useSearchMovie';
 import SearchBar from '@/features/home/components/search/components/SearchBar';
 import { SearchResultCardSkeleton } from '@/features/ui/Skeleton';
 import SearchErrorState from '@/features/home/components/search/components/SearchErrorState';
