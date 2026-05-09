@@ -1,18 +1,24 @@
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import MovieCard from '@/components/movie/MovieCard';
+import BackButton from '@/features/ui/BackButton';
+import Footer from '@/components/layout/Footer';
 
+/**
+ * FavoritesPage displays all movies saved to the user's favorites.
+ * Shows an empty state with a browse prompt when no favorites exist.
+ */
 export default function FavoritesPage() {
   const { favorites } = useFavoriteStore();
-  const navigate = useNavigate();
 
   return (
-    <div className='min-h-screen bg-black text-white'>
-      <div className='layout-gutter py-10'>
+    <div className="min-h-screen bg-black text-white">
+      <BackButton />
 
+      <div className="layout-gutter pt-24 pb-16">
         <motion.h1
-          className='text-3xl font-bold mb-8'
+          className="text-3xl font-bold mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -22,26 +28,24 @@ export default function FavoritesPage() {
 
         {favorites.length === 0 ? (
           <motion.div
-            className='flex flex-col items-center justify-center gap-4 mt-32 text-center'
+            className="flex flex-col items-center justify-center gap-4 mt-32 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <span className='text-6xl'>🎬</span>
-            <p className='text-white/50 text-lg'>No favorites yet.</p>
-            <p className='text-white/30 text-sm'>
-              Start adding movies you love!
-            </p>
-            <button
-              onClick={() => navigate('/')}
-              className='mt-4 px-6 py-2.5 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 transition'
+            <span className="text-6xl" aria-hidden="true">🎬</span>
+            <p className="text-white/50 text-lg">No favorites yet.</p>
+            <p className="text-white/30 text-sm">Start adding movies you love!</p>
+            <Link
+              to="/"
+              className="mt-4 px-6 py-2.5 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all duration-200"
             >
               Browse Movies
-            </button>
+            </Link>
           </motion.div>
         ) : (
           <motion.div
-            className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -58,8 +62,9 @@ export default function FavoritesPage() {
             ))}
           </motion.div>
         )}
-
       </div>
+
+      <Footer />
     </div>
   );
 }
