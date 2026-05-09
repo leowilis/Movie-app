@@ -8,6 +8,10 @@ interface HeroBackdropProps {
   title: string;
 }
 
+/**
+ * HeroBackdrop renders the animated full-width backdrop image
+ * with cinematic gradient overlays.
+ */
 export default function HeroBackdrop({ movieId, backdropPath, title }: HeroBackdropProps) {
   return (
     <>
@@ -23,8 +27,6 @@ export default function HeroBackdrop({ movieId, backdropPath, title }: HeroBackd
           transition={{ duration: 0.8 }}
         />
       </AnimatePresence>
-
-      {/* Gradient overlays */}
       <div className="absolute inset-0 bg-black/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />

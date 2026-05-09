@@ -6,6 +6,10 @@ interface HeroDotsProps {
   onSelect: (index: number) => void;
 }
 
+/**
+ * HeroDots renders pill-shaped slide indicators for the hero carousel.
+ * Limits to MAX_DOTS regardless of total movie count.
+ */
 export default function HeroDots({ total, activeIndex, onSelect }: HeroDotsProps) {
   const count = Math.min(total, MAX_DOTS);
 

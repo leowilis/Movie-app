@@ -1,19 +1,24 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Movie } from '@/features/types/Movie';
+import { Video } from '@/features/types/Movie';
 import StarRating from '@/features/ui/icons/StarRating';
 import Button from '@/features/ui/Button';
 import PlayIcon from '@/assets/play-icon/play.svg';
 
 interface HeroContentProps {
   movie: Movie;
-  hasTrailer: boolean;
+  trailer: Video | undefined;
   onWatchTrailer: () => void;
   onSeeDetail: () => void;
 }
 
+/**
+ * HeroContent renders the movie title, rating, overview,
+ * and action buttons overlaid on the hero backdrop.
+ */
 export default function HeroContent({
   movie,
-  hasTrailer,
+  trailer,
   onWatchTrailer,
   onSeeDetail,
 }: HeroContentProps) {
@@ -79,11 +84,10 @@ export default function HeroContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          <Button onClick={onWatchTrailer} disabled={!hasTrailer}>
+          <Button disabled={!trailer} onClick={onWatchTrailer}>
             Watch Trailer
             <img src={PlayIcon} className="w-6 h-6" alt="" aria-hidden="true" />
           </Button>
-
           <Button variant="secondary" onClick={onSeeDetail}>
             See Detail
           </Button>
