@@ -1,6 +1,6 @@
-import HeroSection from './hero/HeroSection';
-import TrendingSection from './TrendingSection';
-import NewRelease from './NewRelease';
+import HeroSection from '@/features/home/components/HeroSection';
+import NewRelease from '@/features/home/components/NewRelease';
+import TrendingSection from '@/features/home/components/TrendingSection';
 
 export default function HomeContent() {
   return (
