@@ -1,17 +1,30 @@
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 
+interface BackButtonProps {
+  variant?: 'floating' | 'inline';
+}
+
 /**
- * BackButton renders a floating back button fixed to the top-left of the screen.
- * Designed for mobile detail pages where the Navbar is not present.
+ * BackButton renders a back navigation button in two variants:
+ * - 'floating' (default): fixed to top-left, with backdrop blur. For pages without Navbar.
+ * - 'inline': sits inside a flex row next to a title element.
  */
-export default function BackButton() {
+export default function BackButton({ variant = 'floating' }: BackButtonProps) {
   const navigate = useNavigate();
+
+  const floatingClass =
+    'fixed top-4 left-4 z-50 w-10 h-10 bg-black/50 backdrop-blur-md border border-white/10 shadow-lg';
+
+  const inlineClass =
+    'relative w-9 h-9 bg-white/10 hover:bg-white/20';
 
   return (
     <motion.button
       onClick={() => navigate(-1)}
-      className="fixed top-4 left-4 z-50 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white shadow-lg"
+      className={`rounded-full flex items-center justify-center text-white transition-colors duration-200 ${
+        variant === 'inline' ? inlineClass : floatingClass
+      }`}
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
