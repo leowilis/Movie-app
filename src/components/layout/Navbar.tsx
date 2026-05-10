@@ -27,7 +27,11 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`fixed w-full top-0 z-50 transition-all duration-300`}>
+    <header
+      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'backdrop-blur-xl bg-black/50' : 'bg-transparent'
+      }`}
+    >
       <div className='flex h-15 items-center justify-between px-3'>
         {searchOpen ? (
           <NavSearchBar
