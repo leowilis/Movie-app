@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
+import { useScrollVisibility } from '@/hooks/useScrollVisibility';
 
 interface BackButtonProps {
   variant?: 'floating' | 'inline';
@@ -9,9 +10,14 @@ interface BackButtonProps {
  * BackButton renders a back navigation button in two variants:
  * - 'floating' (default): fixed to top-left, with backdrop blur. For pages without Navbar.
  * - 'inline': sits inside a flex row next to a title element.
+ *
+ * - Is always visible when the user is near the top of the page.
+ * - Smoothly hides when scrolling down past 80px.
+ * - Reappears immediately when scrolling back up.
  */
 export default function BackButton({ variant = 'floating' }: BackButtonProps) {
   const navigate = useNavigate();
+  const { visible } = useScrollVisibility({ threshold: 80, hideDelay: 120 });
 
   const floatingClass =
     'fixed top-4 left-4 z-50 w-10 h-10 bg-black/50 backdrop-blur-md border border-white/10 shadow-lg';
