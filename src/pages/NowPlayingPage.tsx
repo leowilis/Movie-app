@@ -1,28 +1,12 @@
 import { motion } from 'framer-motion';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { api } from '@/lib/api';
-import { Movie, MovieResponse } from '@/features/types/Movie';
+import { useNowPlayingPaginated } from '@/features/movie/hooks/useNowPlayingPaginated';
 import { MovieCardSkeleton } from '@/features/ui/Skeleton';
 import MovieCard from '@/components/movie/MovieCard';
+import BackButton from '@/features/ui/BackButton';
 import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
 
 const SKELETON_COUNT = 8;
-
-const getNowPlayingPaginated = async (page: number): Promise<MovieResponse> => {
-  const { data } = await api.get<MovieResponse>('/movie/now_playing', {
-    params: { page },
-  });
-  return data;
-};
-
-const useNowPlayingPaginated = () =>
-  useInfiniteQuery<MovieResponse, Error>({
-    queryKey: ['now-playing-paginated'],
-    queryFn: ({ pageParam }) => getNowPlayingPaginated(pageParam as number),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
-  });
 
 /**
  * NowPlayingPage displays all currently playing movies in a responsive grid
@@ -38,13 +22,14 @@ export default function NowPlayingPage() {
     isFetchingNextPage,
   } = useNowPlayingPaginated();
 
-  const movies: Movie[] = data?.pages.flatMap((page) => page.results) ?? [];
+  const movies = data?.pages.flatMap((page) => page.results) ?? [];
 
   // Loading state
   if (isLoading) {
     return (
-      <div className='min-h-screen bg-black pt-24 pb-16'>
-        <div className='layout-gutter'>
+      <div className='min-h-screen bg-black pt-16 pb-16'>
+        <BackButton />
+        <div className='layout-gutter mt-16'>
           <div className='h-8 w-40 bg-zinc-800 rounded-lg mb-10 animate-pulse' />
           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
             {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
@@ -60,6 +45,7 @@ export default function NowPlayingPage() {
   if (isError) {
     return (
       <div className='min-h-screen bg-black flex items-center justify-center'>
+        <BackButton />
         <p className='text-zinc-500 text-sm'>
           Failed to load now playing movies. Please try again later.
         </p>
@@ -69,23 +55,25 @@ export default function NowPlayingPage() {
 
   return (
     <div className='min-h-screen bg-black text-white'>
-      <div className='layout-gutter pt-24 pb-16'>
-        {/* Header */}
-        <motion.h1
-          className='text-3xl font-bold mb-10'
+      <Navbar />
+
+      <div className='layout-gutter pt-20 pb-16'>
+        <motion.div
+          className='flex items-center gap-3 mb-8'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Now Playing
-        </motion.h1>
+          {/* Back Button & Title Page */}
+          <BackButton variant='inline' />
+          <h1 className='text-2xl font-bold'>Now Playing</h1>
+        </motion.div>
 
-        {/* Grid */}
+        {/* Movie grid */}
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
-
           {isFetchingNextPage &&
             Array.from({ length: SKELETON_COUNT }).map((_, i) => (
               <MovieCardSkeleton key={`skeleton-${i}`} />
