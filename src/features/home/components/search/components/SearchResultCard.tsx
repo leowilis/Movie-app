@@ -4,20 +4,35 @@ import { Movie } from '@/features/types/Movie';
 import StarRating from '@/features/ui/icons/StarRating';
 import FavoriteButton from '@/features/ui/icons/Favorites';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
+import PlayIcon from '@/assets/play-icon/play.svg';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
 interface SearchResultCardProps {
+  // The movie domain object containing metadata for rendering
   movie: Movie;
 }
 
+/**
+ * SearchResultCard Component
+ *
+ * A high-fidelity card component designed for the search discovery view.
+ *
+ * Technical Features:
+ * -Image Hydration: Synchronizes a pulse skeleton with the actual poster using the onLoad event.
+ * -Event Orchestration: Implements stopPropagation on action buttons to prevent parent card navigation.
+ * -Global State Sync: Connects directly to the Zustand store for real-time favorite status management.
+ * -Visual Hierarchy: Optimized for high information density using line-clamp and responsive geometry.
+ */
 export default function SearchResultCard({ movie }: SearchResultCardProps) {
   const navigate = useNavigate();
   const [imgLoaded, setImgLoaded] = useState(false);
 
+  // Global favorite state management
   const { isFavorite, addFavorite, removeFavorite } = useFavoriteStore();
   const favorite = isFavorite(movie.id);
 
+  // Toggles the favorite status without triggering the parent card navigation
   const handleToggleFavorite = () => {
     if (favorite) {
       removeFavorite(movie.id);
@@ -26,29 +41,32 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
     }
   };
 
+  // Handles the primary navigation to the movie detail page
   const handleNavigate = () => navigate(`/movie/${movie.id}`);
 
+  // Handles trailer action while isolating the click event from the parent card
   const handleTrailer = (e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevents event bubbling to the parent onClick handler
     navigate(`/movie/${movie.id}`);
   };
 
+  // Handles favorite action while isolating the click event from the parent card
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevents event bubbling to the parent onClick handler
     handleToggleFavorite();
   };
 
   return (
     <div
       onClick={handleNavigate}
-      className="mx-4 mb-3 bg-[#141414] rounded-2xl overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer"
+      className='mb-3 overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer'
     >
-      {/* Top: poster + info */}
-      <div className="flex gap-3 p-3">
-        {/* Poster */}
-        <div className="w-[72px] h-[100px] flex-shrink-0 rounded-xl overflow-hidden bg-zinc-800 relative">
+      {/* Top Section: Media & Primary Metadata */}
+      <div className='flex gap-3 p-3'>
+        {/* Poster Container */}
+        <div className='h-42.5 shrink-0 rounded-md overflow-hidden bg-zinc-800 relative'>
           {!imgLoaded && (
-            <div className="absolute inset-0 bg-zinc-700 animate-pulse" />
+            <div className='absolute inset-0 bg-zinc-700 animate-pulse' />
           )}
           {movie.poster_path ? (
             <img
@@ -60,42 +78,40 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
               }`}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-zinc-500 text-xs text-center px-1">
+            <div className='w-full h-full flex items-center justify-center text-zinc-500 text-xs text-center px-1'>
               No Image
             </div>
           )}
         </div>
 
-        {/* Info */}
-        <div className="flex-1 flex flex-col justify-between py-0.5 min-w-0">
+        {/* Content: Title & Overview */}
+        <div className='flex-1 flex flex-col justify-between py-0.5 min-w-0'>
           <div>
-            <h3 className="text-white text-sm font-semibold leading-snug line-clamp-2 mb-1.5">
+            <h3 className='text-white text-lg font-semibold leading-snug line-clamp-2 mb-1.5'>
               {movie.title}
             </h3>
             <StarRating rating={movie.vote_average} />
           </div>
-          <p className="text-zinc-400 text-xs leading-relaxed line-clamp-2 mt-2">
+          <p className='text-zinc-400 text-sm leading-relaxed line-clamp-4'>
             {movie.overview || 'No description available.'}
           </p>
         </div>
       </div>
 
-      {/* Bottom: watch trailer + favorite */}
-      <div className="flex items-center gap-2.5 px-3 pb-3">
+      {/* Bottom Section: Action Indicators */}
+      <div className='flex items-center gap-2.5 px-3 pb-3'>
+        {/* CTA: Trailer Navigation */}
         <button
           onClick={handleTrailer}
-          className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-xl py-2.5 transition-colors duration-150"
+          className='flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-full py-2.5 transition-colors duration-150'
         >
-          <span className="text-white text-xs font-semibold tracking-wide">
+          <span className='text-white text-xs font-semibold tracking-wide'>
             Watch Trailer
           </span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)" />
-            <path d="M10 8.5L15.5 12L10 15.5V8.5Z" fill="white" />
-          </svg>
+          <img src={PlayIcon} className='w-6 h-6' alt='' aria-hidden='true' />
         </button>
 
-        {/* Wrapper div to stop click propagation from parent card */}
+        {/* Interaction: Bookmark/Favorite Toggle */}
         <div onClick={handleFavoriteClick}>
           <FavoriteButton
             isFavorite={favorite}
@@ -103,6 +119,9 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
           />
         </div>
       </div>
+
+      {/* Visual Divider */}
+      <div className='mx-3 my-5 border-b border-white/10' />
     </div>
   );
 }
