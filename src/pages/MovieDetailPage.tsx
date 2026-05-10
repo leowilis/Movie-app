@@ -10,33 +10,55 @@ import MovieInfo from '@/features/movie/components/MovieInfo';
 import MovieStats from '@/features/movie/components/MovieStats';
 import MovieCast from '@/features/movie/components/MovieCast';
 import TrailerModal from '@/components/movie/TrailerModal';
+import BackButton from '@/features/ui/BackButton';
 import Footer from '@/components/layout/Footer';
 
+// Loading State
+
+function LoadingScreen() {
+  return (
+    <div className='min-h-screen bg-black flex items-center justify-center'>
+      <BackButton />
+      <div className='w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin' />
+    </div>
+  );
+}
+
+// Error State
+
+function ErrorScreen() {
+  return (
+    <div className='min-h-screen bg-black flex items-center justify-center'>
+      <BackButton />
+      <p className='text-zinc-500 text-sm'>Failed to load movie details.</p>
+    </div>
+  );
+}
+
+// Main Page
+
+/**
+ * MovieDetailPage displays full details for a single movie including
+ * backdrop, poster, metadata, stats, cast, and trailer modal.
+ *
+ * BackButton is scroll-aware: hides on scroll down, reappears near top.
+ */
 export default function MovieDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { data: movie, isLoading, isError } = useMovieDetail(id ?? '');
-  const { data: trailer } = useMovieTrailer(id ?? '');
-  const { data: credits } = useMovieCredits(id ?? '');
+  const movieId = id ?? '';
+
+  const { data: movie, isLoading, isError } = useMovieDetail(movieId);
+  const { data: trailer } = useMovieTrailer(movieId);
+  const { data: credits } = useMovieCredits(movieId);
   const { addFavorite, removeFavorite, isFavorite } = useFavoriteStore();
-  const [openTrailer, setOpenTrailer] = useState(false);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-      </div>
-    );
-  }
+  const [trailerOpen, setTrailerOpen] = useState(false);
 
-  if (isError || !movie) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <p className="text-zinc-500 text-sm">Failed to load movie details.</p>
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingScreen />;
+  if (isError || !movie) return <ErrorScreen />;
 
   const isFavorited = isFavorite(movie.id);
+  const cast = credits?.cast ?? [];
 
   const handleToggleFavorite = () => {
     if (isFavorited) removeFavorite(movie.id);
@@ -44,37 +66,35 @@ export default function MovieDetailPage() {
   };
 
   return (
-    <div className="min-h-screen text-white bg-black">
-      {/* Backdrop */}
+    <div className='min-h-screen text-white bg-black'>
+      {/* Fixed, scroll-aware back button */}
+      <BackButton />
+
       <MovieHeroBackdrop
         backdropPath={movie.backdrop_path}
         title={movie.title}
       />
 
-      {/* Content — poster + info side by side */}
-      <div className="layout-gutter -mt-24 relative z-10 pb-16">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Poster */}
+      <div className='layout-gutter -mt-24 relative z-10 pb-16'>
+        <div className='flex flex-col md:flex-row gap-8'>
           <MoviePoster posterPath={movie.poster_path} title={movie.title} />
-
-          {/* Info */}
           <MovieInfo
             movie={movie}
             trailer={trailer}
             isFavorited={isFavorited}
             onToggleFavorite={handleToggleFavorite}
-            onWatchTrailer={() => setOpenTrailer(true)}
+            onWatchTrailer={() => setTrailerOpen(true)}
           />
         </div>
 
         <MovieStats movie={movie} />
-        <MovieCast cast={credits?.cast ?? []} />
+        <MovieCast cast={cast} />
       </div>
 
-      {openTrailer && trailer && (
+      {trailerOpen && trailer && (
         <TrailerModal
           videoKey={trailer.key}
-          onClose={() => setOpenTrailer(false)}
+          onClose={() => setTrailerOpen(false)}
         />
       )}
 
