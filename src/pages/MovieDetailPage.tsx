@@ -9,12 +9,12 @@ import MoviePoster from '@/features/movie/components/MoviePoster';
 import MovieInfo from '@/features/movie/components/MovieInfo';
 import MovieStats from '@/features/movie/components/MovieStats';
 import MovieCast from '@/features/movie/components/MovieCast';
+import SimilarMovies from '@/features/movie/components/SimilarMovies';
 import TrailerModal from '@/components/movie/TrailerModal';
 import BackButton from '@/features/ui/BackButton';
 import Footer from '@/components/layout/Footer';
 
 // Loading State
-
 function LoadingScreen() {
   return (
     <div className='min-h-screen bg-black flex items-center justify-center'>
@@ -25,7 +25,6 @@ function LoadingScreen() {
 }
 
 // Error State
-
 function ErrorScreen() {
   return (
     <div className='min-h-screen bg-black flex items-center justify-center'>
@@ -39,9 +38,7 @@ function ErrorScreen() {
 
 /**
  * MovieDetailPage displays full details for a single movie including
- * backdrop, poster, metadata, stats, cast, and trailer modal.
- *
- * BackButton is scroll-aware: hides on scroll down, reappears near top.
+ * backdrop, poster, metadata, stats, cast, similar movies, and trailer modal.
  */
 export default function MovieDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -67,7 +64,6 @@ export default function MovieDetailPage() {
 
   return (
     <div className='min-h-screen text-white bg-black'>
-      {/* Fixed, scroll-aware back button */}
       <BackButton />
 
       <MovieHeroBackdrop
@@ -89,6 +85,7 @@ export default function MovieDetailPage() {
 
         <MovieStats movie={movie} />
         <MovieCast cast={cast} />
+        <SimilarMovies movieId={movieId} />
       </div>
 
       {trailerOpen && trailer && (
