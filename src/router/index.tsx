@@ -4,6 +4,7 @@ import SearchPage from '@/pages/SearchPage';
 import MovieDetailPage from '@/pages/MovieDetailPage';
 import FavoritesPage from '@/pages/FavoritesPage';
 import NowPlayingPage from '@/pages/NowPlayingPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const Router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -11,6 +12,7 @@ const Router = createBrowserRouter([
   { path: '/now-playing', element: <NowPlayingPage /> },
   { path: '/movie/:id', element: <MovieDetailPage /> },
   { path: '/favorites', element: <FavoritesPage /> },
+  { path: '*', element: <NotFoundPage /> },
 ]);
 
 export default Router;
