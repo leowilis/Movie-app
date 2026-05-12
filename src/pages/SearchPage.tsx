@@ -32,7 +32,7 @@ export default function SearchPage() {
   const debouncedQuery = useDebounce(query, 400);
 
   // Dynamic browser tab title
-  usePageTitle(query ? `Search: ${query}` : 'Search');
+  usePageTitle(debouncedQuery ? `Search: ${debouncedQuery}` : 'Search');
 
   // Sync internal state when browser navigation occurs
   useEffect(() => {
