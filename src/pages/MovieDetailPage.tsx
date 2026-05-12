@@ -13,6 +13,7 @@ import SimilarMovies from '@/features/movie/components/SimilarMovies';
 import TrailerModal from '@/components/movie/TrailerModal';
 import BackButton from '@/features/ui/BackButton';
 import Footer from '@/components/layout/Footer';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 // Loading State
 function LoadingScreen() {
@@ -48,8 +49,10 @@ export default function MovieDetailPage() {
   const { data: trailer } = useMovieTrailer(movieId);
   const { data: credits } = useMovieCredits(movieId);
   const { addFavorite, removeFavorite, isFavorite } = useFavoriteStore();
-
   const [trailerOpen, setTrailerOpen] = useState(false);
+
+  // Dynamic browser tab title
+  usePageTitle(movie?.title);
 
   if (isLoading) return <LoadingScreen />;
   if (isError || !movie) return <ErrorScreen />;
