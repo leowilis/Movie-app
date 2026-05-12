@@ -9,6 +9,7 @@ import { SearchResultCardSkeleton } from '@/features/ui/Skeleton';
 import SearchErrorState from '@/features/home/components/search/components/SearchErrorState';
 import SearchResultCard from '@/features/home/components/search/components/SearchResultCard';
 import SearchEmptyState from '@/features/home/components/search/components/SearchEmptyState';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const SKELETON_COUNT = 5;
 
@@ -29,6 +30,9 @@ export default function SearchPage() {
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
   const debouncedQuery = useDebounce(query, 400);
+
+  // Dynamic browser tab title
+  usePageTitle(query ? `Search: ${query}` : 'Search');
 
   // Sync internal state when browser navigation occurs
   useEffect(() => {
