@@ -89,7 +89,7 @@ export default function Button({
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`flex items-center gap-2 bg-red-600 text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-red-900 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
+        className={`flex items-center gap-2 bg-red-600 text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:bg-red-900 transition-colors duration-200 disabled:cursor-not-allowed ${className}`}
       >
         {children}
       </button>
