@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { MovieDetail } from '@/features/types/Movie';
-import { Video } from '@/features/types/Movie';
+import { MovieDetail, Video } from '@/features/types/Movie';
 import StarRating from '@/features/ui/icons/StarRating';
 import FavoriteButton from '@/features/ui/icons/Favorites';
 import Button from '@/features/ui/Button';
@@ -36,23 +35,9 @@ export default function MovieInfo({
       transition={{ duration: 0.6, delay: 0.3 }}
     >
       {/* Title */}
-      <div className='flex items-start justify-between gap-4'>
-        <h1 className='text-3xl md:text-5xl font-bold leading-tight'>
-          {movie.title}
-        </h1>
-        {/* Watch Trailer + Favorite */}
-        <div className='flex gap-3 mt-2'>
-          <Button
-            variant='outline'
-            disabled={!trailer}
-            onClick={onWatchTrailer}
-          >
-            Watch Trailer
-            <img src={PlayIcon} className='w-6 h-6' alt='' aria-hidden='true' />
-          </Button>
-          <FavoriteButton isFavorite={isFavorited} onClick={onToggleFavorite} />
-        </div>
-      </div>
+      <h1 className='text-2xl md:text-5xl font-bold leading-tight'>
+        {movie.title}
+      </h1>
 
       {/* Tagline */}
       {movie.tagline && (
@@ -87,10 +72,24 @@ export default function MovieInfo({
       </div>
 
       {/* Overview */}
-      <h2 className='text-2xl font-bold pb-2 mt-2'>Overview</h2>
+      <h2 className='text-2xl font-bold mt-2'>Overview</h2>
       <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
         {movie.overview}
       </p>
+
+      {/* Buttons trailer + favorite */}
+      <div className='flex items-center gap-3 mt-2'>
+        <Button
+          variant='outline'
+          disabled={!trailer}
+          onClick={onWatchTrailer}
+          className='flex-1 justify-center'
+        >
+          Watch Trailer
+          <img src={PlayIcon} className='w-5 h-5' alt='' aria-hidden='true' />
+        </Button>
+        <FavoriteButton isFavorite={isFavorited} onClick={onToggleFavorite} />
+      </div>
     </motion.div>
   );
 }
