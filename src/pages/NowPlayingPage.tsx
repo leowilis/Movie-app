@@ -8,6 +8,7 @@ import MovieCard from '@/components/movie/MovieCard';
 import BackButton from '@/features/ui/BackButton';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const SKELETON_COUNT = 8;
 
@@ -27,6 +28,9 @@ export default function NowPlayingPage() {
   const { data: genres = [] } = useMovieGenres();
 
   const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
+
+  // Dynamic browser tab title
+  usePageTitle('Now Playing');
 
   // Filter client-side by selected genre
   const movies =
