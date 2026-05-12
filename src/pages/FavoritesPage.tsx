@@ -5,6 +5,7 @@ import BackButton from '@/features/ui/BackButton';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import SearchResultCard from '@/features/home/components/search/components/SearchResultCard';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /**
  * FavoritesPage displays all movies saved to the user's favorites.
@@ -12,6 +13,8 @@ import SearchResultCard from '@/features/home/components/search/components/Searc
  */
 export default function FavoritesPage() {
   const { favorites } = useFavoriteStore();
+  // Dynamic browser tab title
+  usePageTitle('My Favorites');
 
   return (
     <div className='min-h-screen bg-black text-white'>
