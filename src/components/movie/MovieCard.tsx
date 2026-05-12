@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { Movie } from '@/features/types/Movie';
 import { Skeleton } from '@/features/ui/Skeleton';
 import StarRating from '@/features/ui/icons/StarRating';
+import MovieImage from '@/features/ui/MovieImage';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -25,22 +26,15 @@ export default function MovieCard({ movie }: MovieCardProps) {
       className='group shrink-0 w-[200px] cursor-pointer active:scale-95 transition-transform duration-200'
     >
       {/* Poster */}
-      <div className='h-[300px] w-[200px] rounded-lg overflow-hidden bg-zinc-900 mb-4 relative'>
-        {!loaded && <Skeleton className='absolute inset-0 rounded-lg' />}
-
+      <div className='h-[300px] w-[200px] rounded-lg overflow-hidden bg-zinc-900 mb-4'>
         {movie.poster_path ? (
-          <img
+          <MovieImage
             src={`${IMAGE_BASE}${movie.poster_path}`}
             alt={movie.title}
-            onLoad={() => setLoaded(true)}
-            className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 ${
-              loaded ? 'opacity-100' : 'opacity-0'
-            }`}
+            className='w-full h-full group-hover:scale-105 transition-transform duration-300'
           />
         ) : (
-          <div className='w-full h-full flex items-center justify-center text-zinc-500 text-sm'>
-            No Image
-          </div>
+          <Skeleton className='w-full h-full' />
         )}
       </div>
 
