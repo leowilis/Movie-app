@@ -5,6 +5,7 @@ import StarRating from '@/features/ui/icons/StarRating';
 import FavoriteButton from '@/features/ui/icons/Favorites';
 import { useFavoriteStore } from '@/store/useFavoriteStore';
 import PlayIcon from '@/assets/play-icon/play.svg';
+import MovieImage from '@/features/ui/MovieImage';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -61,30 +62,18 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
       onClick={handleNavigate}
       className='mb-3 overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer'
     >
-      {/* Top Section: Media & Primary Metadata */}
+      {/* Top: poster + info */}
       <div className='flex gap-3 p-3'>
-        {/* Poster Container */}
-        <div className='h-42.5 shrink-0 rounded-md overflow-hidden bg-zinc-800 relative'>
-          {!imgLoaded && (
-            <div className='absolute inset-0 bg-zinc-700 animate-pulse' />
-          )}
-          {movie.poster_path ? (
-            <img
-              src={`${IMAGE_BASE}${movie.poster_path}`}
-              alt={movie.title}
-              onLoad={() => setImgLoaded(true)}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${
-                imgLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-          ) : (
-            <div className='w-full h-full flex items-center justify-center text-zinc-500 text-xs text-center px-1'>
-              No Image
-            </div>
-          )}
+        {/* Poster */}
+        <div className='h-[170px] w-[114px] shrink-0 rounded-md overflow-hidden bg-zinc-800'>
+          <MovieImage
+            src={`${IMAGE_BASE}${movie.poster_path}`}
+            alt={movie.title}
+            className='w-full h-full'
+          />
         </div>
 
-        {/* Content: Title & Overview */}
+        {/* Info */}
         <div className='flex-1 flex flex-col justify-between py-0.5 min-w-0'>
           <div>
             <h3 className='text-white text-lg font-semibold leading-snug line-clamp-2 mb-1.5'>
@@ -98,12 +87,11 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
         </div>
       </div>
 
-      {/* Bottom Section: Action Indicators */}
+      {/* Bottom: actions */}
       <div className='flex items-center gap-2.5 px-3 pb-3'>
-        {/* CTA: Trailer Navigation */}
         <button
           onClick={handleTrailer}
-          className='flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-full py-2.5 transition-colors duration-150'
+          className='flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-800 active:bg-red-800 rounded-full py-2.5 transition-colors duration-150'
         >
           <span className='text-white text-xs font-semibold tracking-wide'>
             Watch Trailer
@@ -111,7 +99,6 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
           <img src={PlayIcon} className='w-6 h-6' alt='' aria-hidden='true' />
         </button>
 
-        {/* Interaction: Bookmark/Favorite Toggle */}
         <div onClick={handleFavoriteClick}>
           <FavoriteButton
             isFavorite={favorite}
@@ -120,7 +107,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
         </div>
       </div>
 
-      {/* Visual Divider */}
+      {/* Divider */}
       <div className='mx-3 my-5 border-b border-white/10' />
     </div>
   );
