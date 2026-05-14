@@ -30,7 +30,7 @@ export default function MovieCast({ cast }: MovieCastProps) {
         {cast.slice(0, CAST_LIMIT).map((person, index) => (
           <motion.div
             key={person.id}
-            className='flex items-center gap-4 py-4 border-b border-white/10'
+            className='flex items-center gap-4 py-4 border-white/10'
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -40,7 +40,7 @@ export default function MovieCast({ cast }: MovieCastProps) {
               <MovieImage
                 src={`${PROFILE_BASE}${person.profile_path}`}
                 alt={person.name}
-                className='w-full h-full'
+                className='max-w-20 h-full'
               />
             ) : (
               <div className='w-[100px] h-40 rounded-xl bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
@@ -48,8 +48,8 @@ export default function MovieCast({ cast }: MovieCastProps) {
               </div>
             )}
             <div>
-              <p className='text-white font-semibold text-sm'>{person.name}</p>
-              <p className='text-white/40 text-xs mt-0.5'>{person.character}</p>
+              <p className='text-white font-semibold text-lg'>{person.name}</p>
+              <p className='text-white/40 text-md mt-3'>{person.character}</p>
             </div>
           </motion.div>
         ))}
