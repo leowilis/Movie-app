@@ -68,7 +68,7 @@ export default function FavoritesPage() {
           </motion.div>
         ) : (
           <motion.div
-            className='grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'
+            className='flex flex-col'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
