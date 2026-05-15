@@ -23,12 +23,12 @@ export default function HeroContent({
   onSeeDetail,
 }: HeroContentProps) {
   return (
-    <div className="relative z-10 h-full flex items-end">
-      <div className="layout-gutter w-full max-w-2xl space-y-4 pb-16">
+    <div className='relative z-10 h-full flex items-end'>
+      <div className='layout-gutter w-full max-w-3xl space-y-4 pb-16'>
         {/* Badge */}
         <motion.span
           key={movie.id + '-badge'}
-          className="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+          className='inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider'
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -37,10 +37,10 @@ export default function HeroContent({
         </motion.span>
 
         {/* Title */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode='wait'>
           <motion.h1
             key={movie.id + '-title'}
-            className="text-2xl md:text-5xl font-bold text-white leading-tight"
+            className='text-2xl md:text-5xl font-bold text-white leading-tight'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -53,7 +53,7 @@ export default function HeroContent({
         {/* Rating + Year */}
         <motion.div
           key={movie.id + '-meta'}
-          className="flex items-center gap-3 text-sm text-white/80"
+          className='flex items-center gap-3 text-sm text-white/80'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -64,10 +64,10 @@ export default function HeroContent({
         </motion.div>
 
         {/* Overview */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode='wait'>
           <motion.p
             key={movie.id + '-overview'}
-            className="text-zinc-300 text-sm md:text-base line-clamp-4"
+            className='text-zinc-300 text-sm md:text-base line-clamp-3'
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -79,16 +79,16 @@ export default function HeroContent({
 
         {/* Buttons */}
         <motion.div
-          className="flex flex-col gap-4"
+          className='flex flex-col gap-3 md:flex-row'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
           <Button disabled={!trailer} onClick={onWatchTrailer}>
             Watch Trailer
-            <img src={PlayIcon} className="w-6 h-6" alt="" aria-hidden="true" />
+            <img src={PlayIcon} className='w-6 h-6' alt='' aria-hidden='true' />
           </Button>
-          <Button variant="secondary" onClick={onSeeDetail}>
+          <Button variant='secondary' onClick={onSeeDetail}>
             See Detail
           </Button>
         </motion.div>
