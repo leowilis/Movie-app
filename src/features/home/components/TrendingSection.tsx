@@ -12,8 +12,7 @@ const SKELETON_COUNT = 4;
  * TrendingSection Component
  *
  * Orchestrates the "Trending Now" cinematic slider.
- * Integrates custom horizontal navigation primitives, standardized loading states,
- * and resilient error boundaries.
+ * Integrates custom horizontal navigation primitives, standardized loading states and resilient error boundaries.
  *
  * Features:
  * - Dynamic scroll orchestration via `useSlider` hook.
@@ -56,14 +55,14 @@ export default function TrendingSection() {
 
   return (
     <motion.section
-      className='py-8'
+      className='py-8 md:py-12'
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
     >
       <div className='layout-gutter'>
-        <h2 className='text-white text-3xl font-bold mb-12 px-2'>
+        <h2 className='text-white text-3xl font-bold mb-8 px-2 md:text-4xl md:mb-12'>
           Trending Now
         </h2>
 
@@ -81,13 +80,13 @@ export default function TrendingSection() {
 
           {/* Left fade */}
           <div
-            className={`pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
+            className={`pointer-events-none absolute left-0 top-0 h-full w-24 md:w-32 bg-gradient-to-r from-black to-transparent transition-opacity duration-300 ${
               scrollPosition > 0 ? 'opacity-100' : 'opacity-0'
             }`}
           />
 
           {/* Right fade */}
-          <div className='pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent' />
+          <div className='pointer-events-none absolute right-0 top-0 h-full w-24 md:w-32 bg-gradient-to-l from-black to-transparent' />
 
           <ArrowLeft onClick={slideLeft} visible={scrollPosition > 0} />
           <ArrowRight onClick={slideRight} />
