@@ -43,13 +43,15 @@ export default function NavSearchBar({
         onKeyDown={handleKeyDown}
         className='w-full bg-transparent text-white outline-none placeholder:text-white/40 text-base'
       />
-      <button
-        onClick={onClose}
-        className='text-white/50 hover:text-white transition-colors shrink-0'
-        aria-label='CLose search'
-      >
-        <CloseIcon className='w-5 h-5' />
-      </button>
+      {value && (
+        <button
+          onClick={onClose}
+          className='text-white/50 hover:text-white transition-colors shrink-0'
+          aria-label='Close search'
+        >
+          <CloseIcon className='w-5 h-5' />
+        </button>
+      )}
     </div>
   );
 }
