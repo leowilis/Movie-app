@@ -32,16 +32,16 @@ export default function NavSearchBar({
   };
 
   return (
-    <div className='flex items-center w-full gap-3 bg-white/10 rounded-full px-5 py-2'>
+    <div className='flex items-center w-full gap-3 bg-neutral-800 rounded-full px-5 py-2 md:py-3 md:rounded-2xl'>
       <SearchIcon className='w-5 h-5 text-white/50 shrink-0' />
       <input
         ref={inputRef}
         type='text'
-        placeholder='Search movies, series...'
+        placeholder='Search movies'
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        className='w-full bg-transparent text-white outline-none placeholder:text-white/40 text-base'
+        className='w-full bg-transparent text-white outline-none placeholder:text-neutral-500 text-base'
       />
       {value && (
         <button
