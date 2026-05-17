@@ -38,7 +38,7 @@ export default function Navbar() {
         isScrolled ? 'backdrop-blur-xl bg-black/50' : 'bg-transparent'
       }`}
     >
-      <div className='flex h-15 items-center justify-between px-3'>
+      <div className='flex h-15 items-center justify-between px-4 md:px-8 md:py-10'>
         {/* Mobile: replace entire bar when search open */}
         {searchOpen && (
           <div className='flex md:hidden w-full'>
