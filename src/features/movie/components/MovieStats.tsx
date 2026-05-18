@@ -22,25 +22,31 @@ export default function MovieStats({ movie }: MovieStatsProps) {
       transition={{ duration: 0.5 }}
     >
       {movie.budget > 0 && (
-        <div className="bg-white/5 rounded-2xl p-4">
-          <p className="text-white/40 text-xs mb-1">Budget</p>
-          <p className="text-white font-semibold">
+        <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 md:p-6">
+          <p className="text-white/40 text-xs mb-1 md:mb-2 uppercase tracking-widest">Budget</p>
+          <p className="text-white font-semibold text-lg md:text-2xl">
             ${(movie.budget / 1_000_000).toFixed(0)}M
           </p>
         </div>
       )}
       {movie.revenue > 0 && (
-        <div className="bg-white/5 rounded-2xl p-4">
-          <p className="text-white/40 text-xs mb-1">Revenue</p>
-          <p className="text-white font-semibold">
+        <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 md:p-6">
+          <p className="text-white/40 text-xs mb-1 md:mb-2 uppercase tracking-widest">Revenue</p>
+          <p className="text-white font-semibold text-lg md:text-2xl">
             ${(movie.revenue / 1_000_000).toFixed(0)}M
           </p>
         </div>
       )}
-      <div className="bg-white/5 rounded-2xl p-4">
-        <p className="text-white/40 text-xs mb-1">Votes</p>
-        <p className="text-white font-semibold">
+      <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 md:p-6">
+        <p className="text-white/40 text-xs mb-1 md:mb-2 uppercase tracking-widest">Votes</p>
+        <p className="text-white font-semibold text-lg md:text-2xl">
           {movie.vote_count.toLocaleString()}
+        </p>
+      </div>
+      <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 md:p-6">
+        <p className="text-white/40 text-xs mb-1 md:mb-2 uppercase tracking-widest">Popularity</p>
+        <p className="text-white font-semibold text-lg md:text-2xl">
+          {Math.round(movie.popularity).toLocaleString()}
         </p>
       </div>
     </motion.div>
