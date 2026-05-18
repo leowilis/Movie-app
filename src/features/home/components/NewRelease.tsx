@@ -4,6 +4,7 @@ import { MovieCardSkeleton } from '@/features/ui/Skeleton';
 import MovieCard from '@/components/movie/MovieCard';
 
 const INITIAL_SKELETON_COUNT = 4;
+const LOAD_MORE_SKELETON_COUNT = 4;
 
 /**
  * NewRelease Component
@@ -36,7 +37,7 @@ export default function NewRelease() {
       <section className='py-8'>
         <div className='layout-gutter'>
           <div className='h-8 w-36 bg-zinc-800 rounded-lg mb-12 mx-2 animate-pulse' />
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
             {Array.from({ length: INITIAL_SKELETON_COUNT }).map((_, i) => (
               <MovieCardSkeleton key={i} />
             ))}
@@ -68,19 +69,19 @@ export default function NewRelease() {
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
     >
       <div className='layout-gutter'>
-        <h2 className='text-white text-3xl font-bold mb-12 px-2'>
+        <h2 className='text-white text-3xl font-bold mb-12 px-2 md:text-4xl'>
           New Release
         </h2>
 
         {/* Movie Grid */}
-        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4'>
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
 
           {/* Load More skeletons */}
           {isFetchingNextPage &&
-            Array.from({ length: INITIAL_SKELETON_COUNT }).map((_, i) => (
+            Array.from({ length: LOAD_MORE_SKELETON_COUNT }).map((_, i) => (
               <MovieCardSkeleton key={`skeleton-${i}`} />
             ))}
         </div>
