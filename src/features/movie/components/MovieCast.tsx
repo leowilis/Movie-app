@@ -26,11 +26,11 @@ export default function MovieCast({ cast }: MovieCastProps) {
       aria-label='Cast'
     >
       <h2 className='text-2xl font-bold mb-4'>Cast & Crew</h2>
-      <div className='flex flex-col'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8'>
         {cast.slice(0, CAST_LIMIT).map((person, index) => (
           <motion.div
             key={person.id}
-            className='flex items-center gap-4 py-4 border-white/10'
+            className='flex items-center gap-4 py-4 border-b border-white/10 md:border-b-0'
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -40,16 +40,16 @@ export default function MovieCast({ cast }: MovieCastProps) {
               <MovieImage
                 src={`${PROFILE_BASE}${person.profile_path}`}
                 alt={person.name}
-                className='max-w-20 h-full'
+                className='w-14 h-14 md:w-18 md:h-25 rounded-full object-cover shrink-0'
               />
             ) : (
-              <div className='w-[100px] h-40 rounded-xl bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
+              <div className='w-14 h-14 md:w-18 md:h-25 rounded-full bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
                 ?
               </div>
             )}
             <div>
-              <p className='text-white font-semibold text-lg'>{person.name}</p>
-              <p className='text-white/40 text-md mt-3'>{person.character}</p>
+              <p className='text-white font-semibold text-sm'>{person.name}</p>
+              <p className='text-white/40 text-xs mt-1'>{person.character}</p>
             </div>
           </motion.div>
         ))}
