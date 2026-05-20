@@ -48,8 +48,12 @@ export default function MovieCast({ cast }: MovieCastProps) {
               </div>
             )}
             <div>
-              <p className='text-white font-semibold text-sm md:text-base md:mb-3'>{person.name}</p>
-              <p className='text-white/40 text-xs mt-1 md:text-sm'>{person.character}</p>
+              <p className='text-white font-semibold text-sm md:text-base md:mb-3'>
+                {person.name}
+              </p>
+              <p className='text-white/40 text-xs mt-1 md:text-sm'>
+                {person.character}
+              </p>
             </div>
           </motion.div>
         ))}
