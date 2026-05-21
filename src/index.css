@@ -28,10 +28,10 @@ select {
   font-size: 16px;
 }
 
- @layer utilities {
+@layer utilities {
   .layout-gutter {
-    max-width: 1480px; 
-    margin-inline: auto;
+    max-width: 1480px;
+    margin-inline: 60px;
     padding-inline: 20px;
   }
 
