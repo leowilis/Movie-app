@@ -43,7 +43,9 @@ export default function MovieInfo({
 
       {/* Tagline */}
       {movie.tagline && (
-        <p className='text-white/50 italic text-sm md:text-base'>{movie.tagline}</p>
+        <p className='text-white/50 italic text-sm md:text-base'>
+          {movie.tagline}
+        </p>
       )}
 
       {/* Meta */}
@@ -89,18 +91,26 @@ export default function MovieInfo({
 
       {/* Stat cards — Rating / Genre / Age Limit */}
       <div className='grid grid-cols-3 gap-3'>
-        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
-          <p className='text-white/40 text-xs uppercase tracking-widest'>Rating</p>
+        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>
+            Rating
+          </p>
           <p className='text-white font-bold text-sm md:text-xl'>
             {movie.vote_average.toFixed(1)}/10
           </p>
         </div>
-        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
-          <p className='text-white/40 text-xs uppercase tracking-widest'>Genre</p>
-          <p className='text-white font-bold text-sm md:text-xl'>{primaryGenre}</p>
+        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>
+            Genre
+          </p>
+          <p className='text-white font-bold text-sm md:text-xl'>
+            {primaryGenre}
+          </p>
         </div>
-        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
-          <p className='text-white/40 text-xs uppercase tracking-widest'>Age Limit</p>
+        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>
+            Age Limit
+          </p>
           <p className='text-white font-bold text-sm md:text-xl'>{ageLimit}</p>
         </div>
       </div>
