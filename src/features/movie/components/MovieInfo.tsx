@@ -26,22 +26,24 @@ export default function MovieInfo({
 }: MovieInfoProps) {
   const hours = Math.floor((movie.runtime ?? 0) / 60);
   const minutes = (movie.runtime ?? 0) % 60;
+  const primaryGenre = movie.genres?.[0]?.name ?? '—';
+  const ageLimit = movie.adult ? '18+' : '13+';
 
   return (
     <motion.div
-      className='flex flex-col gap-4'
+      className='flex flex-col gap-4 md:gap-5'
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.3 }}
     >
       {/* Title */}
-      <h1 className='text-2xl md:text-5xl font-bold leading-tight'>
+      <h1 className='text-2xl md:text-4xl lg:text-5xl font-bold leading-tight'>
         {movie.title}
       </h1>
 
       {/* Tagline */}
       {movie.tagline && (
-        <p className='text-white/50 italic text-sm'>{movie.tagline}</p>
+        <p className='text-white/50 italic text-sm md:text-base'>{movie.tagline}</p>
       )}
 
       {/* Meta */}
@@ -71,12 +73,6 @@ export default function MovieInfo({
         ))}
       </div>
 
-      {/* Overview */}
-      <h2 className='text-2xl font-bold mt-2'>Overview</h2>
-      <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
-        {movie.overview}
-      </p>
-
       {/* Buttons trailer + favorite */}
       <div className='flex items-center gap-3 mt-2'>
         <Button
@@ -90,6 +86,30 @@ export default function MovieInfo({
         </Button>
         <FavoriteButton isFavorite={isFavorited} onClick={onToggleFavorite} />
       </div>
+
+      {/* Stat cards — Rating / Genre / Age Limit */}
+      <div className='grid grid-cols-3 gap-3'>
+        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>Rating</p>
+          <p className='text-white font-bold text-sm md:text-xl'>
+            {movie.vote_average.toFixed(1)}/10
+          </p>
+        </div>
+        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>Genre</p>
+          <p className='text-white font-bold text-sm md:text-xl'>{primaryGenre}</p>
+        </div>
+        <div className='bg-white/5 rounded-2xl p-3 md:p-5 flex flex-col items-center gap-1 md:gap-2'>
+          <p className='text-white/40 text-xs uppercase tracking-widest'>Age Limit</p>
+          <p className='text-white font-bold text-sm md:text-xl'>{ageLimit}</p>
+        </div>
+      </div>
+
+      {/* Overview */}
+      <h2 className='text-2xl font-bold mt-2'>Overview</h2>
+      <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
+        {movie.overview}
+      </p>
     </motion.div>
   );
 }
