@@ -40,10 +40,10 @@ export default function MovieCast({ cast }: MovieCastProps) {
               <MovieImage
                 src={`${PROFILE_BASE}${person.profile_path}`}
                 alt={person.name}
-                className='w-14 h-14 md:w-18 md:h-25 rounded-full object-cover shrink-0'
+                className='w-14 h-21 md:w-18 md:h-25 rounded-full object-cover shrink-0'
               />
             ) : (
-              <div className='w-14 h-14 md:w-18 md:h-25 rounded-full bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
+              <div className='w-14 h-21 md:w-18 md:h-25 rounded-full bg-white/10 shrink-0 flex items-center justify-center text-white/30 text-xl'>
                 ?
               </div>
             )}
