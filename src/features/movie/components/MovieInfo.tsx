@@ -91,7 +91,7 @@ export default function MovieInfo({
 
       {/* Stat cards — Rating / Genre / Age Limit */}
       <div className='grid grid-cols-3 gap-3'>
-        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+        <div className='bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-6 md:p-6 flex flex-col items-center gap-1 md:gap-2'>
           <p className='text-white/40 text-xs uppercase tracking-widest'>
             Rating
           </p>
@@ -99,7 +99,7 @@ export default function MovieInfo({
             {movie.vote_average.toFixed(1)}/10
           </p>
         </div>
-        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+        <div className='bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-6 md:p-6 flex flex-col items-center gap-1 md:gap-2'>
           <p className='text-white/40 text-xs uppercase tracking-widest'>
             Genre
           </p>
@@ -107,7 +107,7 @@ export default function MovieInfo({
             {primaryGenre}
           </p>
         </div>
-        <div className='bg-black rounded-2xl p-6 md:p-7 flex flex-col items-center gap-1 md:gap-2'>
+        <div className='bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-6 md:p-6 flex flex-col items-center gap-1 md:gap-2'>
           <p className='text-white/40 text-xs uppercase tracking-widest'>
             Age Limit
           </p>
