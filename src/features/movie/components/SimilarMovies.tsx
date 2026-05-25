@@ -67,7 +67,7 @@ export default function SimilarMovies({ movieId }: SimilarMoviesProps) {
         />
 
         {/* Right fade */}
-        <div className='pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent' />
+        <div className='pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-black to-transparent' />
 
         <ArrowLeft onClick={slideLeft} visible={scrollPosition > 0} />
         <ArrowRight onClick={slideRight} />
