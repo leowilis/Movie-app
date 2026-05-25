@@ -14,6 +14,7 @@ import TrailerModal from '@/components/movie/TrailerModal';
 import BackButton from '@/features/ui/BackButton';
 import Footer from '@/components/layout/Footer';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import Navbar from '@/components/layout/Navbar';
 
 // Loading State
 function LoadingScreen() {
@@ -67,6 +68,12 @@ export default function MovieDetailPage() {
 
   return (
     <div className='min-h-screen text-white bg-black'>
+      {/* Navbar show on desktop only */}
+      <div className='hidden md:block'>
+        <Navbar />
+      </div>
+
+      {/* Back arrow show on mobile only */}
       <div className='fixed top-4 left-4 z-40 md:hidden'>
         <BackButton />
       </div>
