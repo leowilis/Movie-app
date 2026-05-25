@@ -86,6 +86,13 @@ export default function MovieDetailPage() {
           />
         </div>
 
+        <div className='mt-8'>
+          <h2 className='text-xl md:text-3xl font-bold mb-3'>Overview</h2>
+          <p className='text-zinc-300 text-sm md:text-lg leading-relaxed'>
+            {movie.overview}
+          </p>
+        </div>
+
         <MovieStats movie={movie} />
         <MovieCast cast={cast} />
         <SimilarMovies movieId={movieId} />
