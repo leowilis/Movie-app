@@ -117,7 +117,7 @@ export default function MovieInfo({
 
       {/* Overview */}
       <h2 className='text-2xl font-bold mt-2 md:text-3xl'>Overview</h2>
-      <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
+      <p className='text-zinc-300 text-sm md:text-lg leading-relaxed max-w-2xl'>
         {movie.overview}
       </p>
     </motion.div>
