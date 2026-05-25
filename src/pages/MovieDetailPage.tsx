@@ -67,7 +67,9 @@ export default function MovieDetailPage() {
 
   return (
     <div className='min-h-screen text-white bg-black'>
-      <BackButton />
+      <div className='fixed top-4 left-4 z-40 md:hidden'>
+        <BackButton />
+      </div>
 
       <MovieHeroBackdrop
         backdropPath={movie.backdrop_path}
