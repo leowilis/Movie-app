@@ -43,7 +43,7 @@ export default function MovieInfo({
 
       {/* Tagline */}
       {movie.tagline && (
-        <p className='text-white/50 italic text-sm md:text-base'>
+        <p className='text-white/50 italic text-sm md:text-xl'>
           {movie.tagline}
         </p>
       )}
@@ -116,7 +116,7 @@ export default function MovieInfo({
       </div>
 
       {/* Overview */}
-      <h2 className='text-2xl font-bold mt-2'>Overview</h2>
+      <h2 className='text-2xl font-bold mt-2 md:text-3xl'>Overview</h2>
       <p className='text-zinc-300 text-sm md:text-base leading-relaxed max-w-2xl'>
         {movie.overview}
       </p>
