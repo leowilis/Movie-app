@@ -74,7 +74,7 @@ export default function MovieDetailPage() {
         title={movie.title}
       />
 
-      <div className='layout-gutter -mt-24 relative z-10 pb-16'>
+      <div className='layout-gutter -mt-[20vw] relative z-10 pb-16'>
         <div className='flex flex-col md:flex-row gap-8'>
           <MoviePoster posterPath={movie.poster_path} title={movie.title} />
           <MovieInfo
