@@ -114,12 +114,6 @@ export default function MovieInfo({
           <p className='text-white font-bold text-sm md:text-xl'>{ageLimit}</p>
         </div>
       </div>
-
-      {/* Overview */}
-      <h2 className='text-2xl font-bold mt-2 md:text-3xl'>Overview</h2>
-      <p className='text-zinc-300 text-sm md:text-lg leading-relaxed max-w-2xl'>
-        {movie.overview}
-      </p>
     </motion.div>
   );
 }
