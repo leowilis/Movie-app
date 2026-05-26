@@ -81,7 +81,7 @@ export default function MovieInfo({
           variant='outline'
           disabled={!trailer}
           onClick={onWatchTrailer}
-          className='flex-1 justify-center md:max-w-xs'
+          className='flex-1 justify-center md:max-w-s'
         >
           Watch Trailer
           <img src={PlayIcon} className='w-5 h-5' alt='' aria-hidden='true' />
