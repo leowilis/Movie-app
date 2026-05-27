@@ -4,6 +4,7 @@ import { useScrollVisibility } from '@/hooks/useScrollVisibility';
 
 interface BackButtonProps {
   variant?: 'floating' | 'inline';
+  className?: string;
 }
 
 /**
@@ -15,7 +16,10 @@ interface BackButtonProps {
  * - Hides immediately once the user scrolls down past threshold.
  * - Reappears only when scrolled back to the top.
  */
-export default function BackButton({ variant = 'floating' }: BackButtonProps) {
+export default function BackButton({
+  variant = 'floating',
+  className = '',
+}: BackButtonProps) {
   const navigate = useNavigate();
   const { visible } = useScrollVisibility({ threshold: 10 });
 
@@ -29,7 +33,7 @@ export default function BackButton({ variant = 'floating' }: BackButtonProps) {
       onClick={() => navigate(-1)}
       className={`rounded-full flex items-center justify-center text-white transition-colors duration-200 ${
         variant === 'inline' ? inlineClass : floatingClass
-      }`}
+      } ${className}`}
       animate={{
         opacity: visible ? 1 : 0,
         y: visible ? 0 : -8,
