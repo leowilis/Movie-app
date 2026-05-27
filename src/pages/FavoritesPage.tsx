@@ -29,7 +29,7 @@ export default function FavoritesPage() {
           transition={{ duration: 0.5 }}
         >
           {/* Back Button & Title Page */}
-          <BackButton variant='inline' />
+          <BackButton variant='inline' className='md:hidden' />
           <h1 className='text-2xl font-bold'>My Favorites</h1>
         </motion.div>
 
