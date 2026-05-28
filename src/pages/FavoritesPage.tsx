@@ -20,7 +20,7 @@ export default function FavoritesPage() {
     <div className='min-h-screen bg-black text-white'>
       <Navbar />
 
-      <div className='layout-gutter pt-20 pb-16'>
+      <div className='layout-gutter pt-20 pb-16 md:pt-28'>
         {/* Header */}
         <motion.div
           className='flex items-center gap-3 mb-8'
