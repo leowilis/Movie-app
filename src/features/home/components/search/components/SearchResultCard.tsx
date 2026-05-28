@@ -62,7 +62,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
   return (
     <div
       onClick={handleNavigate}
-      className='mb-3 overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer'
+      className='mb-3 overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer relative'
     >
       {/* Top Section: Media Asset Container + Fluid Meta Column */}
       <div className='flex gap-3 p-3 md:gap-6 md:p-4'>
@@ -104,7 +104,9 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
                 aria-hidden='true'
               />
             </button>
-            <div onClick={handleFavoriteClick}>
+            <div 
+            className='absolute top-3 right-3 z-10'
+            onClick={handleFavoriteClick}>
               <FavoriteButton isFavorite={favorite} onClick={() => {}} />
             </div>
           </div>
