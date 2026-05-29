@@ -54,9 +54,7 @@ export default function Navbar() {
         <img
           src={Logo}
           alt='Movie Logo'
-          className={`h-8 w-auto md:h-10 cursor-pointer shrink-0 ${
-            searchOpen ? 'hidden md:block' : 'block'
-          }`}
+          className={`h-8 w-auto md:h-10 cursor-pointer shrink-0 md:block ${searchOpen ? '!hidden md:!block' : 'block'}`}
           onClick={() => navigate('/')}
         />
 
