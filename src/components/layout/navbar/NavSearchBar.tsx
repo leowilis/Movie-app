@@ -43,7 +43,7 @@ export default function NavSearchBar({
         onKeyDown={handleKeyDown}
         className='w-full bg-transparent text-white outline-none placeholder:text-neutral-500 text-base'
       />
-      {value && (
+     {value && (
         <button
           onClick={onClose}
           className='text-white/50 hover:text-white transition-colors shrink-0'
