@@ -1,5 +1,3 @@
-'use client';
-
 import { useNavigate } from 'react-router';
 import { Movie } from '@/features/types/Movie';
 import StarRating from '@/features/ui/icons/StarRating';
@@ -16,22 +14,8 @@ interface SearchResultCardProps {
 }
 
 /**
- * SearchResultCard Component
- *
- * A high-fidelity, production-ready card component designed for search results
- * and favorite collection listings.
- *
- * Technical Features & Design Patterns:
- * 1. **Responsive Responsive Adaptability**: Conditionally re-orchestrates layouts via `hidden md:flex`
- *    and `flex md:hidden` media triggers to reposition action targets depending on viewport limits.
- *    - Mobile view targets: Bottom-anchored button layout pattern.
- *    - Widescreen view targets: Inlined layout structure inside meta columns.
- * 2. **Event Bubble Isolation**: Leverages strict programmatic `e.stopPropagation()` triggers
- *    to fully block structural button events from bleeding through to card-level route overrides.
- * 3. **Global Synchronization**: Binds directly with `useFavoriteStore` to drive live, optimistic UI updates
- *    across multiple separate feature pages concurrently.
- * 4. **Aspect Ratio Enforcement**: Maps rigid pixel boundaries (`h-[170px] w-[114px]` and `md:h-[200px] md:w-[134px]`)
- *    to preserve the standard 2:3 theatrical poster canvas and block Cumulative Layout Shifts (CLS).
+ * SearchResultCard displays a movie poster, metadata, and action buttons.
+ * Adapts layout between mobile (stacked) and desktop (inline) viewports.
  */
 export default function SearchResultCard({ movie }: SearchResultCardProps) {
   const navigate = useNavigate();
@@ -62,12 +46,12 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
   return (
     <div
       onClick={handleNavigate}
-      className='mb-3 overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer relative'
+      className='overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer relative'
     >
       {/* Top Section: Media Asset Container + Fluid Meta Column */}
-      <div className='flex gap-3 p-3 md:gap-6 md:p-4'>
+      <div className='flex gap-3 p-3 md:gap-8 md:px-6 md:py-5'>
         {/* Poster Canvas Frame (Enforces 2:3 aspect constraints) */}
-        <div className='h-[170px] w-[114px] md:h-[200px] md:w-[134px] shrink-0 rounded-md overflow-hidden bg-zinc-800'>
+        <div className='h-[170px] w-[114px] md:h-[210px] md:w-[140px] shrink-0 rounded-xl overflow-hidden bg-zinc-800'>
           <MovieImage
             src={`${IMAGE_BASE}${movie.poster_path}`}
             alt={movie.title}
@@ -78,13 +62,13 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
         {/* Info Area: Dynamically bound typography scales */}
         <div className='flex-1 flex flex-col justify-between py-0.5 min-w-0'>
           <div>
-            <h3 className='text-white text-lg md:text-xl font-semibold leading-snug line-clamp-2 mb-1.5'>
+            <h3 className='text-white text-lg md:text-2xl font-semibold leading-snug line-clamp-2'>
               {movie.title}
             </h3>
             <StarRating rating={movie.vote_average} />
           </div>
 
-          <p className='text-zinc-400 text-sm md:text-base leading-relaxed line-clamp-4 md:line-clamp-3 mt-2'>
+          <p className='text-zinc-400 text-sm md:text-base leading-relaxed line-clamp-4 md:line-clamp-3 mt-2 md:max-w-2xl'>
             {movie.overview || 'No description available.'}
           </p>
 
@@ -104,9 +88,10 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
                 aria-hidden='true'
               />
             </button>
-            <div 
-            className='absolute top-3 right-3 z-10'
-            onClick={handleFavoriteClick}>
+            <div
+              className='absolute top-3 right-3 z-10 md:top-5 md:right-6'
+              onClick={handleFavoriteClick}
+            >
               <FavoriteButton isFavorite={favorite} onClick={() => {}} />
             </div>
           </div>
@@ -130,7 +115,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
       </div>
 
       {/* Structural Visual Divider System */}
-      <div className='mx-3 md:mx-4 my-5 border-b border-white/10' />
+      <div className='mx-3 md:mx-6 my-5 border-b border-white/10' />
     </div>
   );
 }
