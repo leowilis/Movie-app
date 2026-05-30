@@ -10,6 +10,7 @@ import SearchErrorState from '@/features/home/components/search/components/Searc
 import SearchResultCard from '@/features/home/components/search/components/SearchResultCard';
 import SearchEmptyState from '@/features/home/components/search/components/SearchEmptyState';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import Navbar from '@/components/layout/Navbar';
 
 const SKELETON_COUNT = 5;
 
@@ -65,11 +66,18 @@ export default function SearchPage() {
 
   return (
     <div className='min-h-screen bg-black flex flex-col'>
-      <SearchBar value={query} onChange={setQuery} onClear={handleClear} />
+      {/* Desktop navbar */}
+      <div className='hidden md:block'>
+        <Navbar />
+      </div>
+      {/* Mobile search bar */}
+      <div className='md:hidden'>
+        <SearchBar value={query} onChange={setQuery} onClear={handleClear} />
+      </div>
 
       {/* Genre filter — only appears when there are results */}
       {!isInit && !isLoading && !isError && (results?.length ?? 0) > 0 && (
-        <div className='px-4 pt-3 pb-1'>
+        <div className='px-4 pt-3 pb-1 md:px-6 md:pt-28'>
           <GenreFilter
             genres={genres}
             selectedId={selectedGenreId}
@@ -78,7 +86,7 @@ export default function SearchPage() {
         </div>
       )}
 
-      <div className='flex flex-col flex-1 pt-2 pb-8 overflow-y-auto'>
+      <div className='flex flex-col flex-1 pt-2 pb-8 overflow-y-auto md:pt-4'>
         {/* Loading state */}
         {isLoading &&
           Array.from({ length: SKELETON_COUNT }).map((_, i) => (
