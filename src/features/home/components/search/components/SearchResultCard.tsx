@@ -46,12 +46,12 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
   return (
     <div
       onClick={handleNavigate}
-      className='overflow-hidden active:scale-[0.99] transition-transform duration-150 cursor-pointer relative'
+      className='group relative cursor-pointer transition-colors duration-200 hover:bg-white/[0.03] active:scale-[0.99]'
     >
       {/* Top Section: Media Asset Container + Fluid Meta Column */}
-      <div className='flex gap-3 p-3 md:gap-8 md:px-6 md:py-5'>
+      <div className='flex gap-4 p-4 md:gap-8 md:p-6'>
         {/* Poster Canvas Frame (Enforces 2:3 aspect constraints) */}
-        <div className='h-[170px] w-[114px] md:h-[210px] md:w-[140px] shrink-0 rounded-xl overflow-hidden bg-zinc-800'>
+        <div className='h-[170px] w-[114px] md:h-[220px] md:w-[150px] shrink-0 rounded-xl overflow-hidden bg-zinc-900'>
           <MovieImage
             src={`${IMAGE_BASE}${movie.poster_path}`}
             alt={movie.title}
@@ -61,19 +61,19 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
 
         {/* Info Area: Dynamically bound typography scales */}
         <div className='flex-1 flex flex-col justify-between py-0.5 min-w-0'>
-          <div>
-            <h3 className='text-white text-lg md:text-2xl font-semibold leading-snug line-clamp-2'>
+          <div className='flex flex-col gap-2'>
+            <h3 className='text-white text-lg md:text-2xl font-bold leading-snug line-clamp-2 pr-10'>
               {movie.title}
             </h3>
             <StarRating rating={movie.vote_average} />
           </div>
 
-          <p className='text-zinc-400 text-sm md:text-base leading-relaxed line-clamp-4 md:line-clamp-3 mt-2 md:max-w-2xl'>
+          <p className='text-zinc-400 text-sm md:text-base leading-relaxed line-clamp-3 mt-3 md:max-w-2xl'>
             {movie.overview || 'No description available.'}
           </p>
 
           {/* Desktop Adaptive Core: Displayed inline within meta columns only */}
-          <div className='hidden md:flex items-center gap-3 mt-4'>
+          <div className='hidden md:flex items-center gap-3 mt-5'>
             <button
               onClick={handleGoToDetail}
               className='flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 rounded-full px-6 py-2 transition-colors duration-150'
