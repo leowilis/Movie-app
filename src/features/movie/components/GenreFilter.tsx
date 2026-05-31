@@ -17,7 +17,7 @@ export default function GenreFilter({ genres, selectedId, onSelect }: GenreFilte
       {/* All pill */}
       <motion.button
         onClick={() => onSelect(null)}
-        className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${
+        className={`shrink-0 px-4 py-1.5 md:px-5 md:py-2 rounded-full text-sm font-medium transition-all duration-200 ${
           selectedId === null
             ? 'bg-red-600 text-white'
             : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
