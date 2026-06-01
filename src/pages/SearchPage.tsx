@@ -65,28 +65,29 @@ export default function SearchPage() {
     !isInit && !isLoading && !isError && (filteredResults?.length ?? 0) > 0;
 
   return (
-    <div className='min-h-screen bg-black flex flex-col'>
+    <div className='min-h-screen bg-black text-white flex flex-col'>
       {/* Desktop navbar */}
       <div className='hidden md:block'>
         <Navbar />
       </div>
+
       {/* Mobile search bar */}
       <div className='md:hidden'>
         <SearchBar value={query} onChange={setQuery} onClear={handleClear} />
       </div>
 
-      {/* Genre filter — only appears when there are results */}
-      {!isInit && !isLoading && !isError && (results?.length ?? 0) > 0 && (
-        <div className='px-4 pt-3 pb-1 md:px-6 md:pt-28'>
-          <GenreFilter
-            genres={genres}
-            selectedId={selectedGenreId}
-            onSelect={setSelectedGenreId}
-          />
-        </div>
-      )}
+      <div className='layout-gutter flex flex-col flex-1 pt-2 pb-8 md:pt-28'>
+        {/* Genre filter — only visible when results exist */}
+        {!isInit && !isLoading && !isError && (results?.length ?? 0) > 0 && (
+          <div className='pb-4'>
+            <GenreFilter
+              genres={genres}
+              selectedId={selectedGenreId}
+              onSelect={setSelectedGenreId}
+            />
+          </div>
+        )}
 
-      <div className='flex flex-col flex-1 pt-2 pb-8 overflow-y-auto md:pt-4'>
         {/* Loading state */}
         {isLoading &&
           Array.from({ length: SKELETON_COUNT }).map((_, i) => (
