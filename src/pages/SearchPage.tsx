@@ -76,10 +76,10 @@ export default function SearchPage() {
         <SearchBar value={query} onChange={setQuery} onClear={handleClear} />
       </div>
 
-      <div className='layout-gutter flex flex-col flex-1 pt-2 pb-8 md:pt-28'>
+      <div className='flex flex-col flex-1 pt-2 pb-8 md:max-w-[1480px] md:mx-auto md:w-full md:px-12 md:pt-28'>
         {/* Genre filter — only visible when results exist */}
         {!isInit && !isLoading && !isError && (results?.length ?? 0) > 0 && (
-          <div className='pb-4'>
+          <div className='px-4 pb-4 md:px-0'>
             <GenreFilter
               genres={genres}
               selectedId={selectedGenreId}
