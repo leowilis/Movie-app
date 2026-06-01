@@ -49,7 +49,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
       className='group relative cursor-pointer transition-colors duration-200 hover:bg-white/[0.03] active:scale-[0.99]'
     >
       {/* Top Section: Media Asset Container + Fluid Meta Column */}
-      <div className='flex gap-4 p-4 md:gap-8 md:p-6'>
+      <div className='flex gap-4 p-4 md:gap-8 md:py-6 md:px-0'>
         {/* Poster Canvas Frame (Enforces 2:3 aspect constraints) */}
         <div className='h-[170px] w-[114px] md:h-[220px] md:w-[150px] shrink-0 rounded-xl overflow-hidden bg-zinc-900'>
           <MovieImage
@@ -99,7 +99,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
       </div>
 
       {/* Mobile Adaptive Core: Isolated bottom layout block */}
-      <div className='flex md:hidden items-center gap-2.5 px-3 pb-3'>
+      <div className='flex md:hidden items-center gap-2.5 px-3 pb-3 md:px-0'>
         <button
           onClick={handleGoToDetail}
           className='flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 rounded-full py-2.5 transition-colors duration-150'
@@ -115,7 +115,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
       </div>
 
       {/* Structural Visual Divider System */}
-      <div className='mx-3 md:mx-6 my-5 border-b border-white/10' />
+      <div className='mx-3 md:mx-0 my-5 border-b border-white/10' />
     </div>
   );
 }
