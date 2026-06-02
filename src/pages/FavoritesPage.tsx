@@ -30,7 +30,7 @@ export default function FavoritesPage() {
         >
           {/* Back Button & Title Page */}
           <BackButton variant='inline' className='md:hidden' />
-          <h1 className='text-2xl font-bold'>My Favorites</h1>
+          <h1 className='text-2xl font-bold md:text-3xl'>My Favorites</h1>
         </motion.div>
 
         {favorites.length === 0 ? (
