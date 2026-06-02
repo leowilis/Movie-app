@@ -124,11 +124,17 @@ export default function NowPlayingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <GenreFilter
-              genres={genres}
-              selectedId={selectedGenreId}
-              onSelect={setSelectedGenreId}
-            />
+            <div className='relative'>
+              <div className='overflow-x-auto scrollbar-hide'>
+                <GenreFilter
+                  genres={genres}
+                  selectedId={selectedGenreId}
+                  onSelect={setSelectedGenreId}
+                />
+              </div>
+              {/* Right fade mask */}
+              <div className='pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black to-transparent' />
+            </div>
 
             {selectedGenreId !== null && (
               <div className='flex items-center justify-between mt-3'>
