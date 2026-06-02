@@ -12,7 +12,23 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 
 const SKELETON_COUNT = 8;
 
-// NowPlayingPage displays currently playing movies in a responsive grid with genre filter pills and Load More pagination
+// Stagger variants for the movie grid container
+const gridVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+
+// Per-card enter animation variant
+const cardVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
+
+/**
+ * NowPlayingPage — displays currently playing movies in a responsive grid.
+ * Features: genre filter pills with result count, stagger card animation,
+ * and Load More pagination via infinite query.
+ */
 export default function NowPlayingPage() {
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
 
@@ -27,16 +43,17 @@ export default function NowPlayingPage() {
 
   const { data: genres = [] } = useMovieGenres();
 
-  const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
-
-  // Dynamic browser tab title
   usePageTitle('Now Playing');
 
-  // Filter client-side by selected genre
+  const allMovies = data?.pages.flatMap((page) => page.results) ?? [];
+
+  // Client-side filter by selected genre id
   const movies =
     selectedGenreId === null
       ? allMovies
       : allMovies.filter((movie) => movie.genre_ids.includes(selectedGenreId));
+
+  const currentPage = data?.pages.length ?? 0;
 
   // Loading state
   if (isLoading) {
@@ -58,15 +75,24 @@ export default function NowPlayingPage() {
   // Error state
   if (isError) {
     return (
-      <div className='min-h-screen bg-black flex items-center justify-center'>
-        <BackButton />
-        <p className='text-zinc-500 text-sm'>
-          Failed to load now playing movies. Please try again later.
+      <div className='min-h-screen bg-black flex flex-col items-center justify-center gap-3'>
+        <p className='text-zinc-400 text-sm font-medium'>
+          Something went wrong
         </p>
+        <p className='text-zinc-600 text-xs'>
+          Failed to load movies. Check your connection.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className='mt-2 px-6 py-2 rounded-full border border-zinc-700 text-zinc-300 text-sm hover:border-white hover:text-white transition-all'
+        >
+          Try again
+        </button>
       </div>
     );
   }
 
+  // Main render
   return (
     <div className='min-h-screen bg-black text-white'>
       <Navbar />
@@ -74,13 +100,20 @@ export default function NowPlayingPage() {
       <div className='layout-gutter pt-20 pb-16 md:pt-28'>
         {/* Header */}
         <motion.div
-          className='flex items-center gap-3 mb-8'
+          className='mb-8'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <BackButton variant='inline' className='md:hidden' />
-          <h1 className='text-2xl font-bold md:text-3xl'>Now Playing</h1>
+          <div className='flex items-center gap-3'>
+            <BackButton variant='inline' className='md:hidden' />
+            <h1 className='text-2xl font-bold md:text-3xl'>Now Playing</h1>
+          </div>
+          {allMovies.length > 0 && (
+            <p className='text-sm text-zinc-500 mt-5'>
+              Updated weekly · {allMovies.length} movies
+            </p>
+          )}
         </motion.div>
 
         {/* Genre filter pills */}
@@ -96,22 +129,38 @@ export default function NowPlayingPage() {
               selectedId={selectedGenreId}
               onSelect={setSelectedGenreId}
             />
+
+            {selectedGenreId !== null && (
+              <div className='flex items-center justify-between mt-3'>
+                <p className='text-xs text-zinc-500'>
+                  Showing {movies.length} movie{movies.length !== 1 ? 's' : ''}
+                </p>
+                <button
+                  onClick={() => setSelectedGenreId(null)}
+                  className='text-xs text-red-500 hover:text-red-400 transition-colors'
+                >
+                  Clear filter
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
 
         {/* Empty state */}
         {movies.length === 0 && !isFetchingNextPage && (
           <motion.div
-            className='flex flex-col items-center justify-center py-24 gap-3'
+            className='flex flex-col items-center justify-center py-24 gap-2'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <p className='text-zinc-500 text-sm'>
-              No movies found for this genre.
+            <span className='text-4xl'>🎬</span>
+            <p className='text-zinc-400 text-sm font-medium'>No results</p>
+            <p className='text-zinc-600 text-xs'>
+              No movies match this genre right now.
             </p>
             <button
               onClick={() => setSelectedGenreId(null)}
-              className='text-red-500 text-sm hover:text-red-400 transition-colors'
+              className='mt-2 text-red-500 text-xs hover:text-red-400 transition-colors'
             >
               Clear filter
             </button>
@@ -120,15 +169,22 @@ export default function NowPlayingPage() {
 
         {/* Movie grid */}
         {movies.length > 0 && (
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+          <motion.div
+            className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'
+            variants={gridVariants}
+            initial='hidden'
+            animate='visible'
+          >
             {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <motion.div key={movie.id} variants={cardVariants}>
+                <MovieCard movie={movie} />
+              </motion.div>
             ))}
             {isFetchingNextPage &&
               Array.from({ length: SKELETON_COUNT }).map((_, i) => (
                 <MovieCardSkeleton key={`skeleton-${i}`} />
               ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Load More */}
@@ -136,9 +192,12 @@ export default function NowPlayingPage() {
           <div className='flex justify-center mt-12'>
             <button
               onClick={() => fetchNextPage()}
-              className='px-8 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-medium hover:border-white hover:text-white hover:bg-white/5 active:scale-95 transition-all duration-200'
+              className='flex items-center gap-2 px-8 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-medium hover:border-white hover:text-white hover:bg-white/5 active:scale-95 transition-all duration-200'
             >
               Load More
+              <span className='text-xs text-zinc-600 bg-zinc-900 px-2 py-0.5 rounded'>
+                pg {currentPage + 1}
+              </span>
             </button>
           </div>
         )}
