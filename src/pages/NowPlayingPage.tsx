@@ -53,8 +53,6 @@ export default function NowPlayingPage() {
       ? allMovies
       : allMovies.filter((movie) => movie.genre_ids.includes(selectedGenreId));
 
-  const currentPage = data?.pages.length ?? 0;
-
   // Loading state
   if (isLoading) {
     return (
@@ -196,12 +194,9 @@ export default function NowPlayingPage() {
           <div className='flex justify-center mt-12'>
             <button
               onClick={() => fetchNextPage()}
-              className='flex items-center gap-2 px-8 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-medium hover:border-white hover:text-white hover:bg-white/5 active:scale-95 transition-all duration-200'
+              className='px-8 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-medium hover:border-white hover:text-white hover:bg-white/5 active:scale-95 transition-all duration-200'
             >
               Load More
-              <span className='text-xs text-zinc-600 bg-zinc-900 px-2 py-0.5 rounded'>
-                pg {currentPage + 1}
-              </span>
             </button>
           </div>
         )}
