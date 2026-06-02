@@ -23,10 +23,10 @@ export default function MovieCard({ movie }: MovieCardProps) {
   return (
     <div
       onClick={() => navigate(`/movie/${movie.id}`)}
-      className='group shrink-0 w-[200px] cursor-pointer active:scale-95 transition-transform duration-200'
+      className='group cursor-pointer active:scale-95 transition-transform duration-200'
     >
       {/* Poster */}
-      <div className='h-[300px] w-[200px] rounded-lg overflow-hidden bg-zinc-900 mb-4'>
+      <div className='aspect-[2/3] w-full rounded-lg overflow-hidden bg-zinc-900 mb-4'>
         {movie.poster_path ? (
           <MovieImage
             src={`${IMAGE_BASE}${movie.poster_path}`}
