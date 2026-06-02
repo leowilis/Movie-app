@@ -71,16 +71,16 @@ export default function NowPlayingPage() {
     <div className='min-h-screen bg-black text-white'>
       <Navbar />
 
-      <div className='layout-gutter pt-20 pb-16'>
+      <div className='layout-gutter pt-20 pb-16 md:pt-28'>
         {/* Header */}
         <motion.div
-          className='flex items-center gap-3 mb-6'
+          className='flex items-center gap-3 mb-8'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <BackButton variant='inline' />
-          <h1 className='text-2xl font-bold'>Now Playing</h1>
+          <BackButton variant='inline' className='md:hidden' />
+          <h1 className='text-2xl font-bold md:text-3xl'>Now Playing</h1>
         </motion.div>
 
         {/* Genre filter pills */}
