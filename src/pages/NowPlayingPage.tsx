@@ -125,15 +125,13 @@ export default function NowPlayingPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className='relative'>
-              <div className='overflow-x-auto scrollbar-hide'>
-                <GenreFilter
-                  genres={genres}
-                  selectedId={selectedGenreId}
-                  onSelect={setSelectedGenreId}
-                />
-              </div>
+              <GenreFilter
+                genres={genres}
+                selectedId={selectedGenreId}
+                onSelect={setSelectedGenreId}
+              />
               {/* Right fade mask */}
-              <div className='pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black to-transparent' />
+              <div className='pointer-events-none absolute inset-y-0 right-0 w-23 bg-gradient-to-l from-black from-5% to-transparent' />
             </div>
 
             {selectedGenreId !== null && (
