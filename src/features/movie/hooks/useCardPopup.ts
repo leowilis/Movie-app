@@ -8,8 +8,8 @@ interface PopupPosition {
 }
 
 /**
- * Manages hover popup positioning relative to the hovered card.
- * Calculates left/right/center alignment to prevent viewport overflow.
+ * Manages hover popup open state and viewport-aware positioning.
+ * Uses fixed coordinates from getBoundingClientRect for correct placement.
  */
 export function useCardPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,25 +23,26 @@ export function useCardPopup() {
 
     enterTimer.current = setTimeout(() => {
       if (!cardRef.current) return;
+
       const rect = cardRef.current.getBoundingClientRect();
-      const popupWidth = 280;
+      const POPUP_WIDTH = 280;
       const viewportWidth = window.innerWidth;
 
-      let left = rect.left + rect.width / 2 - popupWidth / 2;
+      let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
       let transformOrigin = 'center top';
 
       if (left < 8) {
         left = rect.left;
         transformOrigin = 'left top';
-      } else if (left + popupWidth > viewportWidth - 8) {
-        left = rect.right - popupWidth;
+      } else if (left + POPUP_WIDTH > viewportWidth - 8) {
+        left = rect.right - POPUP_WIDTH;
         transformOrigin = 'right top';
       }
 
       setPosition({
-        top: rect.top + window.scrollY - 8,
+        top: rect.bottom + 8,
         left,
-        width: popupWidth,
+        width: POPUP_WIDTH,
         transformOrigin,
       });
       setIsOpen(true);
@@ -50,7 +51,7 @@ export function useCardPopup() {
 
   const handleMouseLeave = useCallback(() => {
     if (enterTimer.current) clearTimeout(enterTimer.current);
-    leaveTimer.current = setTimeout(() => setIsOpen(false), 200);
+    leaveTimer.current = setTimeout(() => setIsOpen(false), 300);
   }, []);
 
   const handlePopupMouseEnter = useCallback(() => {
@@ -58,7 +59,7 @@ export function useCardPopup() {
   }, []);
 
   const handlePopupMouseLeave = useCallback(() => {
-    leaveTimer.current = setTimeout(() => setIsOpen(false), 200);
+    leaveTimer.current = setTimeout(() => setIsOpen(false), 300);
   }, []);
 
   return {
