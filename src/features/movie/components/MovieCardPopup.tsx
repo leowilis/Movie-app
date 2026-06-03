@@ -66,7 +66,7 @@ export default function MovieCardPopup({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onClick={(e) => e.stopPropagation()}
-          className='fixed z-[9999] rounded-xl overflow-hidden bg-zinc-900 shadow-2xl shadow-black/80 border border-zinc-800'
+          className='absolute z-[9999] rounded-xl overflow-hidden bg-zinc-900 shadow-2xl shadow-black/80 border border-zinc-800'
           style={{
             top: position.top,
             left: position.left,
