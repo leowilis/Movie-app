@@ -28,19 +28,19 @@ export function useCardPopup() {
       const POPUP_WIDTH = 280;
       const viewportWidth = window.innerWidth;
 
-      let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
+      let left = rect.left + window.scrollX + rect.width / 2 - POPUP_WIDTH / 2;
       let transformOrigin = 'center top';
 
       if (left < 8) {
-        left = rect.left;
+        left = rect.left + window.scrollX;
         transformOrigin = 'left top';
       } else if (left + POPUP_WIDTH > viewportWidth - 8) {
-        left = rect.right - POPUP_WIDTH;
+        left = rect.right + window.scrollX - POPUP_WIDTH;
         transformOrigin = 'right top';
       }
 
       setPosition({
-        top: rect.bottom + 8,
+        top: rect.top + window.scrollY - 8,
         left,
         width: POPUP_WIDTH,
         transformOrigin,
