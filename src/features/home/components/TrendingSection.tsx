@@ -71,10 +71,12 @@ export default function TrendingSection() {
           <div
             ref={sliderRef}
             onScroll={handleScroll}
-            className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide'
+            className='flex gap-4 overflow-x-scroll scroll-smooth scrollbar-hide'
           >
             {movies?.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <div key={movie.id} className='w-[140px] shrink-0 md:w-[180px]'>
+                <MovieCard movie={movie} />
+              </div>
             ))}
           </div>
 
