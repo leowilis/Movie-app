@@ -73,7 +73,7 @@ export default function SearchPage() {
     !isInit && !isLoading && !isError && (filteredResults?.length ?? 0) > 0;
 
   return (
-    <div className='min-h-screen bg-black text-white flex flex-col'>
+    <div className='min-h-screen bg-black text-white'>
       {/* Desktop navbar */}
       <div className='hidden md:block'>
         <Navbar />
