@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { useTrendingMovies } from './hooks/useTrendingMovie';
 import { useSlider } from '@/hooks/useSlider';
 import { MovieCardSkeleton } from '@/features/ui/Skeleton';
-import MovieCard from '@/components/movie/MovieCard';
 import ArrowLeft from '@/features/ui/icons/ArrowLeft';
 import ArrowRight from '@/features/ui/icons/ArrowRight';
+import TrailerMovieCard from '@/features/movie/components/TrailerMovieCard';
 
 const SKELETON_COUNT = 4;
 
@@ -75,7 +75,7 @@ export default function TrendingSection() {
           >
             {movies?.map((movie) => (
               <div key={movie.id} className='w-[140px] shrink-0 md:w-[180px]'>
-                <MovieCard movie={movie} />
+                <TrailerMovieCard movie={movie} />
               </div>
             ))}
           </div>
