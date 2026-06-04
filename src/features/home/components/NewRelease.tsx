@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNewRelease } from './hooks/useNewRelease';
 import { MovieCardSkeleton } from '@/features/ui/Skeleton';
-import MovieCard from '@/components/movie/MovieCard';
+import TrailerMovieCard from '@/features/movie/components/TrailerMovieCard';
 
 const INITIAL_SKELETON_COUNT = 4;
 const LOAD_MORE_SKELETON_COUNT = 4;
@@ -76,7 +76,7 @@ export default function NewRelease() {
         {/* Movie Grid */}
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4'>
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <TrailerMovieCard key={movie.id} movie={movie} />
           ))}
 
           {/* Load More skeletons */}
