@@ -14,7 +14,7 @@ const links = [
  */
 export default function NavDesktopLinks() {
   return (
-    <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+    <nav className='hidden lg:flex items-center gap-8 text-sm font-medium'>
       {links.map((link) => (
         <NavLink
           key={link.href}
@@ -28,7 +28,7 @@ export default function NavDesktopLinks() {
         >
           {({ isActive }) => (
             <>
-              <span className="block transition-transform duration-300 group-hover:-translate-y-[1px]">
+              <span className='block transition-transform duration-300 group-hover:-translate-y-[1px]'>
                 {link.label}
               </span>
               <span
