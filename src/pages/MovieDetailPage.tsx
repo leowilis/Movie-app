@@ -79,7 +79,7 @@ export default function MovieDetailPage() {
       </div>
 
       <MovieHeroBackdrop
-        backdropPath={movie.backdrop_path}
+        backdropPath={movie.backdrop_path ?? movie.poster_path}
         title={movie.title}
       />
 
