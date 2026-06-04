@@ -26,9 +26,11 @@ export default function SimilarMovies({ movieId }: SimilarMoviesProps) {
     return (
       <section className='mt-12'>
         <div className='h-7 w-48 bg-zinc-800 rounded-lg mb-6 animate-pulse' />
-        <div className='flex gap-6'>
+        <div className='flex gap-4'>
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-            <MovieCardSkeleton key={i} />
+            <div key={i} className='w-[140px] shrink-0 md:w-[180px]'>
+              <MovieCardSkeleton />
+            </div>
           ))}
         </div>
       </section>
@@ -52,10 +54,12 @@ export default function SimilarMovies({ movieId }: SimilarMoviesProps) {
         <div
           ref={sliderRef}
           onScroll={handleScroll}
-          className='flex gap-6 overflow-x-scroll scroll-smooth scrollbar-hide'
+          className='flex gap-4 overflow-x-scroll scroll-smooth scrollbar-hide'
         >
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <div key={movie.id} className='w-[140px] shrink-0 md:w-[180px]'>
+              <MovieCard movie={movie} />
+            </div>
           ))}
         </div>
 
