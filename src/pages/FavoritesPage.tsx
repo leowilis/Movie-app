@@ -44,7 +44,7 @@ export default function FavoritesPage() {
             <BackButton variant='inline' className='md:hidden' />
             <h1 className='text-2xl font-bold md:text-3xl'>My Favorites</h1>
           </div>
-          <p className='text-sm text-zinc-500 mt-1 flex items-center gap-1.5'>
+          <p className='text-sm text-zinc-500 mt-5 flex items-center gap-1.5'>
             {favorites.length > 0 ? (
               <>
                 <svg
