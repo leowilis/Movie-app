@@ -32,7 +32,7 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
   return (
     <div
       onClick={handleNavigate}
-      className='group relative cursor-pointer transition-colors duration-200 hover:bg-white/[0.03] active:scale-[0.99]'
+      className='group relative cursor-pointer overflow-hidden transition-colors duration-200 hover:bg-white/[0.03] active:scale-[0.99]'
     >
       <div className='flex gap-4 p-4 md:gap-8 md:p-6'>
         {/* Poster */}
@@ -46,11 +46,18 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
 
         {/* Metadata */}
         <div className='flex-1 flex flex-col justify-between py-0.5 min-w-0'>
-          <div className='flex flex-col gap-2'>
-            <h3 className='text-white text-lg md:text-2xl font-bold leading-snug line-clamp-2 pr-10'>
-              {movie.title}
-            </h3>
-            <StarRating rating={movie.vote_average} />
+          <div className='flex items-start justify-between gap-2'>
+            <div className='flex flex-col gap-2 min-w-0'>
+              <h3 className='text-white text-lg md:text-2xl font-bold leading-snug line-clamp-2'>
+                {movie.title}
+              </h3>
+              <StarRating rating={movie.vote_average} />
+            </div>
+
+            {/* Favorite — desktop only, inline with title */}
+            <div className='hidden md:block shrink-0' onClick={handleFavoriteClick}>
+              <FavoriteButton isFavorite={favorite} onClick={() => {}} />
+            </div>
           </div>
 
           <p className='text-zinc-400 text-sm md:text-base leading-relaxed line-clamp-3 mt-3 md:max-w-2xl'>
@@ -66,23 +73,10 @@ export default function SearchResultCard({ movie }: SearchResultCardProps) {
               <span className='text-white text-sm font-semibold tracking-wide'>
                 Watch Trailer
               </span>
-              <img
-                src={PlayIcon}
-                className='w-5 h-5'
-                alt=''
-                aria-hidden='true'
-              />
+              <img src={PlayIcon} className='w-5 h-5' alt='' aria-hidden='true' />
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Favorite button — absolute positioned */}
-      <div
-        className='absolute top-3 right-3 z-10 md:top-5 md:right-6'
-        onClick={handleFavoriteClick}
-      >
-        <FavoriteButton isFavorite={favorite} onClick={() => {}} />
       </div>
 
       {/* Mobile actions */}
